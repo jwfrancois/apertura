@@ -42,6 +42,10 @@
   }
 
   function tx(storeName, mode) {
+    // Open a FRESH transaction for every operation. Returning a long-lived
+    // object store reference causes "TransactionInactiveError" because the
+    // browser auto-commits the transaction as soon as the microtask queue
+    // drains after the first request fires.
     return openDB().then((db) => db.transaction(storeName, mode || 'readonly').objectStore(storeName));
   }
 
@@ -50,6 +54,15 @@
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => reject(req.error);
     });
+  }
+
+  // Convenience: do a single read on a fresh transaction
+  function read(storeName, method, ...args) {
+    return tx(storeName, 'readonly').then((store) => awaitReq(store[method](...args)));
+  }
+  // Convenience: do a single write on a fresh transaction
+  function write(storeName, method, ...args) {
+    return tx(storeName, 'readwrite').then((store) => awaitReq(store[method](...args)));
   }
 
   // -------- password hashing (PBKDF2 via Web Crypto) --------
@@ -92,21 +105,19 @@
   const _currentUser = { value: null };
 
   async function seedDefaultAdmin() {
-    const store = await tx(STORE_ADMIN);
-    const existing = await awaitReq(store.get('admin'));
+    const existing = await read(STORE_ADMIN, 'get', 'admin');
     if (existing) return;
     const { salt, hash } = await hashPassword('admin123');
-    await awaitReq(store.put({
+    await write(STORE_ADMIN, 'put', {
       id: 'admin', email: 'admin@apertura.photo', name: 'Demo Admin',
       role: 'admin', salt, hash, createdAt: Date.now(),
-    }));
-    const userStore = await tx(STORE_USERS);
-    const existingAdminUser = await awaitReq(userStore.get('u_admin'));
+    });
+    const existingAdminUser = await read(STORE_USERS, 'get', 'u_admin');
     if (!existingAdminUser) {
-      await awaitReq(userStore.put({
+      await write(STORE_USERS, 'put', {
         id: 'u_admin', email: 'admin@apertura.photo', name: 'Demo Admin',
         role: 'admin', createdAt: Date.now(),
-      }));
+      });
     }
   }
 
@@ -114,8 +125,7 @@
     const cleanEmail = (email || '').trim().toLowerCase();
     if (!cleanEmail || !password) return { ok: false, error: 'Email and password are required.' };
     if (password.length < 6) return { ok: false, error: 'Password must be at least 6 characters.' };
-    const userStore = await tx(STORE_USERS);
-    const allUsers = await awaitReq(userStore.getAll());
+    const allUsers = await read(STORE_USERS, 'getAll');
     if (allUsers.find((u) => u.email === cleanEmail)) {
       return { ok: false, error: 'An account with that email already exists.' };
     }
@@ -126,7 +136,7 @@
       name: (name || cleanEmail.split('@')[0]).trim(),
       role: 'student', salt, hash, createdAt: Date.now(),
     };
-    await awaitReq(userStore.put(user));
+    await write(STORE_USERS, 'put', user);
     const sessionUser = { id: user.id, email: user.email, name: user.name, role: user.role, createdAt: user.createdAt };
     _currentUser.value = sessionUser;
     localStorage.setItem(SESSION_KEY, id);
@@ -136,8 +146,7 @@
   async function login({ email, password }) {
     const cleanEmail = (email || '').trim().toLowerCase();
     if (!cleanEmail || !password) return { ok: false, error: 'Email and password are required.' };
-    const adminStore = await tx(STORE_ADMIN);
-    const admin = await awaitReq(adminStore.get('admin'));
+    const admin = await read(STORE_ADMIN, 'get', 'admin');
     if (admin && admin.email === cleanEmail) {
       const match = await verifyPassword(password, admin.salt, admin.hash);
       if (!match) return { ok: false, error: 'Incorrect password.' };
@@ -146,8 +155,7 @@
       localStorage.setItem(SESSION_KEY, sessionUser.id);
       return { ok: true, user: sessionUser };
     }
-    const userStore = await tx(STORE_USERS);
-    const allUsers = await awaitReq(userStore.getAll());
+    const allUsers = await read(STORE_USERS, 'getAll');
     const user = allUsers.find((u) => u.email === cleanEmail && u.role !== 'admin');
     if (!user) return { ok: false, error: 'No account found with that email.' };
     const match = await verifyPassword(password, user.salt, user.hash);
@@ -167,8 +175,7 @@
     if (_currentUser.value) return _currentUser.value;
     const id = localStorage.getItem(SESSION_KEY);
     if (!id) return null;
-    const userStore = await tx(STORE_USERS);
-    const user = await awaitReq(userStore.get(id));
+    const user = await read(STORE_USERS, 'get', id);
     if (user) {
       _currentUser.value = { id: user.id, email: user.email, name: user.name, role: user.role, createdAt: user.createdAt };
       return _currentUser.value;
@@ -178,7 +185,7 @@
 
   async function getCompletedSet(userId) {
     if (!userId) return new Set();
-    const progressStore = await tx(STORE_PROGRESS);
+    const progressStore = await tx(STORE_PROGRESS, 'readonly');
     const idx = progressStore.index('userId');
     const matches = await awaitReq(idx.getAll(userId));
     return new Set(matches.map((r) => r.lessonId));
@@ -186,47 +193,42 @@
 
   async function setLessonComplete(userId, lessonId, complete) {
     if (!userId) return;
-    const store = await tx(STORE_PROGRESS, 'readwrite');
     const key = userId + '::' + lessonId;
     if (complete) {
-      await awaitReq(store.put({ key, userId, lessonId, completedAt: Date.now() }));
+      await write(STORE_PROGRESS, 'put', { key, userId, lessonId, completedAt: Date.now() });
     } else {
-      await awaitReq(store.delete(key));
+      await write(STORE_PROGRESS, 'delete', key);
     }
   }
 
   async function toggleLessonComplete(userId, lessonId) {
     if (!userId) return false;
-    const store = await tx(STORE_PROGRESS);
     const key = userId + '::' + lessonId;
-    const existing = await awaitReq(store.get(key));
+    const existing = await read(STORE_PROGRESS, 'get', key);
     if (existing) {
-      await tx(STORE_PROGRESS, 'readwrite').then((s) => s.delete(key));
+      await write(STORE_PROGRESS, 'delete', key);
       return false;
     }
-    await tx(STORE_PROGRESS, 'readwrite').then((s) => s.put({ key, userId, lessonId, completedAt: Date.now() }));
+    await write(STORE_PROGRESS, 'put', { key, userId, lessonId, completedAt: Date.now() });
     return true;
   }
 
   async function setAssessmentResult(userId, result) {
     if (!userId) return;
-    const store = await tx(STORE_PROGRESS, 'readwrite');
-    await awaitReq(store.put({
+    await write(STORE_PROGRESS, 'put', {
       key: userId + '::assessment',
       userId, lessonId: 'assessment', result, completedAt: Date.now(),
-    }));
+    });
   }
 
   async function getAssessmentResult(userId) {
     if (!userId) return null;
-    const store = await tx(STORE_PROGRESS);
-    const r = await awaitReq(store.get(userId + '::assessment'));
+    const r = await read(STORE_PROGRESS, 'get', userId + '::assessment');
     return r ? r.result : null;
   }
 
   async function listAllUsers() {
-    const store = await tx(STORE_USERS);
-    const users = await awaitReq(store.getAll());
+    const users = await read(STORE_USERS, 'getAll');
     return users
       .filter((u) => u.role !== 'admin')
       .map((u) => ({ id: u.id, email: u.email, name: u.name, role: u.role, createdAt: u.createdAt }))
@@ -234,8 +236,7 @@
   }
 
   async function getUserById(id) {
-    const store = await tx(STORE_USERS);
-    const u = await awaitReq(store.get(id));
+    const u = await read(STORE_USERS, 'get', id);
     if (!u) return null;
     return { id: u.id, email: u.email, name: u.name, role: u.role, createdAt: u.createdAt };
   }
@@ -246,20 +247,19 @@
   }
 
   async function deleteUser(id) {
-    const userStore = await tx(STORE_USERS, 'readwrite');
-    await awaitReq(userStore.delete(id));
-    const progressStore = await tx(STORE_PROGRESS, 'readwrite');
+    await write(STORE_USERS, 'delete', id);
+    const progressStore = await tx(STORE_PROGRESS, 'readonly');
     const idx = progressStore.index('userId');
     const matches = await awaitReq(idx.getAll(id));
-    for (const r of matches) await awaitReq(progressStore.delete(r.key));
+    for (const r of matches) {
+      await write(STORE_PROGRESS, 'delete', r.key);
+    }
   }
 
   async function getStats() {
-    const userStore = await tx(STORE_USERS);
-    const users = await awaitReq(userStore.getAll());
+    const users = await read(STORE_USERS, 'getAll');
     const students = users.filter((u) => u.role !== 'admin');
-    const progressStore = await tx(STORE_PROGRESS);
-    const allProgress = await awaitReq(progressStore.getAll());
+    const allProgress = await read(STORE_PROGRESS, 'getAll');
     const assessments = allProgress.filter((p) => p.lessonId === 'assessment');
     const lessonCounts = {};
     for (const p of allProgress) {
