@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Sign in — Apertura</title>
+<meta name="description" content="Sign in to your Apertura photography learning account." />
+<meta name="theme-color" content="#0a0a0a" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='16' y='22' text-anchor='middle' font-family='Inter,sans-serif' font-size='18' font-weight='800' fill='%23FF3B30'>A</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="page-auth">
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html" aria-label="Apertura home">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span class="brand-word">Apertura</span>
+    </a>
+    <nav class="top-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="curriculum.html">Curriculum</a>
+      <a href="resources.html">Resources</a>
+      <a href="history.html">History</a>
+      <a href="careers.html">Careers</a>
+      <a href="glossary.html">Glossary</a>
+    </nav>
+    <div class="auth-nav" id="auth-nav">
+      <a class="nav-pill" href="register.html">Register</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="drawer" id="drawer" hidden>
+    <a href="index.html">Home</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="resources.html">Resources</a>
+    <a href="history.html">History</a>
+    <a href="careers.html">Careers</a>
+    <a href="glossary.html">Glossary</a>
+    <a href="assessment.html">Assessment</a>
+    <a href="about.html">About</a>
+  </div>
+</header>
+<main id="main" class="auth-main">
+  <div class="auth-card">
+    <p class="kicker">ACCOUNT</p>
+    <h1>Sign in</h1>
+    <p class="auth-sub">Track your progress through Apertura's full curriculum.</p>
+
+    <div class="demo-creds">
+      <p class="kicker">DEMO ADMIN</p>
+      <p><strong>Email</strong>: <code>admin@apertura.photo</code></p>
+      <p><strong>Password</strong>: <code>admin123</code></p>
+    </div>
+
+    <form id="login-form" novalidate>
+      <label class="field">
+        <span>Email</span>
+        <input type="email" name="email" id="email" autocomplete="email" required />
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" name="password" id="password" autocomplete="current-password" required />
+      </label>
+      <div class="auth-error" id="auth-error" hidden></div>
+      <button type="submit" class="btn btn-primary" id="submit-btn">Sign in</button>
+    </form>
+
+    <p class="auth-foot">No account yet? <a href="register.html">Register here</a>.</p>
+  </div>
+</main>
+<nav class="bottom-nav" aria-label="Quick navigation">
+  <a href="index.html"><span class="bn-icon">◉</span><span>Home</span></a>
+  <a href="curriculum.html"><span class="bn-icon">▤</span><span>Learn</span></a>
+  <a href="resources.html"><span class="bn-icon">▦</span><span>Resources</span></a>
+  <a href="assessment.html"><span class="bn-icon">◎</span><span>Test</span></a>
+</nav>
+<script src="assets/script.js"></script>
+<script src="assets/auth.js"></script>
+<script>
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const err = document.getElementById('auth-error');
+  const btn = document.getElementById('submit-btn');
+  err.hidden = true;
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+  try {
+    const res = await UserStore.login({ email, password });
+    if (!res.ok) {
+      err.textContent = res.error;
+      err.hidden = false;
+      btn.disabled = false;
+      btn.textContent = 'Sign in';
+      return;
+    }
+    // Redirect: admin → admin page, others → curriculum
+    if (res.user.role === 'admin') {
+      location.href = 'admin.html';
+    } else {
+      location.href = 'curriculum.html';
+    }
+  } catch (ex) {
+    err.textContent = 'Unexpected error: ' + ex.message;
+    err.hidden = false;
+    btn.disabled = false;
+    btn.textContent = 'Sign in';
+  }
+});
+// Render auth nav state
+(async () => {
+  const u = await UserStore.currentUser();
+  const nav = document.getElementById('auth-nav');
+  if (u) {
+    nav.innerHTML = `<a class="nav-pill" href="profile.html">${u.name}</a><a class="nav-pill nav-pill-muted" href="#" id="logout-link">Sign out</a>`;
+    document.getElementById('logout-link').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await UserStore.logout();
+      location.reload();
+    });
+  }
+})();
+</script>
+</body>
+</html>

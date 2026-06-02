@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Admin — Apertura</title>
+<meta name="description" content="Admin dashboard for Apertura learning platform." />
+<meta name="theme-color" content="#0a0a0a" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='16' y='22' text-anchor='middle' font-family='Inter,sans-serif' font-size='18' font-weight='800' fill='%23FF3B30'>A</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="assets/style.css" />
+<style>
+.admin-table { width:100%; border-collapse:collapse; font-size:14px; }
+.admin-table th, .admin-table td { text-align:left; padding:12px 10px; border-bottom:1px solid #1f1f1f; vertical-align:top; }
+.admin-table th { font-family:'JetBrains Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:#888; font-weight:500; }
+.admin-table tr:hover td { background:#101010; }
+.admin-pill { display:inline-block; padding:2px 8px; border:1px solid #2a2a2a; border-radius:99px; font-size:11px; font-family:'JetBrains Mono', monospace; }
+.admin-stat-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:16px; margin-bottom:32px; }
+.admin-stat { background:#0d0d0d; border:1px solid #1f1f1f; border-radius:12px; padding:18px 20px; }
+.admin-stat .kicker { margin:0 0 8px; }
+.admin-stat h3 { margin:0; font-size:36px; font-weight:800; }
+.admin-stat p { margin:6px 0 0; color:#888; font-size:13px; }
+.admin-user-card { background:#0d0d0d; border:1px solid #1f1f1f; border-radius:12px; padding:16px 20px; margin-bottom:12px; }
+.admin-user-card header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.admin-user-card h4 { margin:0 0 2px; font-size:16px; }
+.admin-user-card .uemail { font-size:12px; color:#888; font-family:'JetBrains Mono', monospace; }
+.admin-progress-row { margin-top:12px; display:grid; gap:8px; }
+.admin-progress-row > div { display:flex; align-items:center; gap:8px; font-size:12px; }
+.admin-progress-row .label { width:80px; font-family:'JetBrains Mono', monospace; color:#888; }
+.admin-progress-row .fill { flex:1; height:6px; background:#1a1a1a; border-radius:3px; overflow:hidden; }
+.admin-progress-row .fill > span { display:block; height:100%; background:#FF3B30; }
+.admin-progress-row .num { width:60px; text-align:right; color:#aaa; font-family:'JetBrains Mono', monospace; }
+.admin-actions { display:flex; gap:8px; }
+.admin-empty { padding:40px 20px; text-align:center; color:#666; border:1px dashed #2a2a2a; border-radius:12px; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html" aria-label="Apertura home">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span class="brand-word">Apertura</span>
+    </a>
+    <nav class="top-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="curriculum.html">Curriculum</a>
+      <a href="resources.html">Resources</a>
+      <a href="history.html">History</a>
+      <a href="careers.html">Careers</a>
+      <a href="glossary.html">Glossary</a>
+    </nav>
+    <div class="auth-nav" id="auth-nav"></div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="drawer" id="drawer" hidden>
+    <a href="index.html">Home</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="resources.html">Resources</a>
+    <a href="history.html">History</a>
+    <a href="careers.html">Careers</a>
+    <a href="glossary.html">Glossary</a>
+    <a href="assessment.html">Assessment</a>
+    <a href="about.html">About</a>
+  </div>
+</header>
+<main id="main" class="admin-main">
+  <section class="admin-hero">
+    <p class="kicker">ADMIN DASHBOARD</p>
+    <h1>Student overview</h1>
+    <p class="admin-sub">Track who is learning, what they have completed, and where the cohort is concentrated.</p>
+  </section>
+
+  <section class="admin-stat-grid" id="admin-stats">
+    <div class="admin-stat"><p class="kicker">STUDENTS</p><h3 id="stat-students">—</h3><p>Registered learners</p></div>
+    <div class="admin-stat"><p class="kicker">LESSON COMPLETIONS</p><h3 id="stat-completions">—</h3><p>Across all students</p></div>
+    <div class="admin-stat"><p class="kicker">ASSESSMENTS TAKEN</p><h3 id="stat-assessments">—</h3><p>Skill-level recommendations</p></div>
+    <div class="admin-stat"><p class="kicker">AVG COMPLETION</p><h3 id="stat-avg">—</h3><p>Lessons per student</p></div>
+  </section>
+
+  <section class="admin-section">
+    <p class="kicker">ALL STUDENTS</p>
+    <h2>Learners</h2>
+    <div id="admin-user-list">
+      <div class="admin-empty">Loading…</div>
+    </div>
+  </section>
+
+  <section class="admin-section" id="popular-section" hidden>
+    <p class="kicker">POPULAR LESSONS</p>
+    <h2>Most-completed by the cohort</h2>
+    <ul class="admin-popular" id="admin-popular"></ul>
+  </section>
+</main>
+<nav class="bottom-nav" aria-label="Quick navigation">
+  <a href="index.html"><span class="bn-icon">◉</span><span>Home</span></a>
+  <a href="curriculum.html"><span class="bn-icon">▤</span><span>Learn</span></a>
+  <a href="resources.html"><span class="bn-icon">▦</span><span>Resources</span></a>
+  <a href="assessment.html"><span class="bn-icon">◎</span><span>Test</span></a>
+</nav>
+<script src="assets/auth.js"></script>
+  <script src="assets/lessons.js"></script>
+  <script src="assets/script.js"></script>
+<script>
+async function guard() {
+  const u = await UserStore.currentUser();
+  if (!u) { location.href = 'login.html'; return null; }
+  if (u.role !== 'admin') {
+    document.querySelector('.admin-main').innerHTML =
+      '<section class="profile-hero"><p class="kicker">403</p><h1>Admin only</h1><p>You are signed in as a student. Sign in with the demo admin account to view this page.</p><a class="btn btn-primary" href="login.html">Switch account</a></section>';
+    return null;
+  }
+  return u;
+}
+
+function fmtDate(ts) {
+  if (!ts) return '—';
+  const d = new Date(ts);
+  return d.toLocaleDateString();
+}
+
+async function render() {
+  const u = await guard();
+  if (!u) return;
+  document.getElementById('auth-nav').innerHTML =
+    `<a class="nav-pill nav-pill-active" href="admin.html">${u.name}</a><a class="nav-pill nav-pill-muted" href="#" id="logout-link">Sign out</a>`;
+  document.getElementById('logout-link').addEventListener('click', async (e) => {
+    e.preventDefault();
+    await UserStore.logout();
+    location.href = 'index.html';
+  });
+
+  const stats = await UserStore.getStats();
+  document.getElementById('stat-students').textContent = stats.totalStudents;
+  document.getElementById('stat-completions').textContent = stats.totalCompletions;
+  document.getElementById('stat-assessments').textContent = stats.totalAssessments;
+  const avg = stats.totalStudents ? (stats.totalCompletions / stats.totalStudents).toFixed(1) : '0.0';
+  document.getElementById('stat-avg').textContent = avg;
+
+  const users = await UserStore.listAllUsers();
+  const list = document.getElementById('admin-user-list');
+  if (users.length === 0) {
+    list.innerHTML = '<div class="admin-empty">No students yet. Share the site to start seeing data here.</div>';
+  } else {
+    list.innerHTML = '';
+    for (const user of users) {
+      const completed = await UserStore.getUserProgress(user.id);
+      const assess = await UserStore.getAssessmentResult(user.id);
+      const lessons = window.LESSONS || [];
+      const totalByLevel = { 1:0, 2:0, 3:0, 4:0 };
+      for (const l of lessons) totalByLevel[l.level] = (totalByLevel[l.level] || 0) + 1;
+      const doneByLevel = { 1:0, 2:0, 3:0, 4:0 };
+      for (const l of lessons) if (completed.has(l.id)) doneByLevel[l.level] = (doneByLevel[l.level] || 0) + 1;
+      const rec = assess ? `Level ${assess.recommendedLevel}` : '—';
+      const card = document.createElement('div');
+      card.className = 'admin-user-card';
+      card.innerHTML = `
+        <header>
+          <div>
+            <h4>${user.name}</h4>
+            <div class="uemail">${user.email} · joined ${fmtDate(user.createdAt)}</div>
+            <div class="uemail">${completed.size} lessons done · recommended ${rec}</div>
+          </div>
+          <div class="admin-actions">
+            <button class="btn btn-ghost btn-sm" data-act="view" data-id="${user.id}">View</button>
+            <button class="btn btn-danger btn-sm" data-act="delete" data-id="${user.id}">Delete</button>
+          </div>
+        </header>
+        <div class="admin-progress-row">
+          ${[1,2,3,4].map((lv) => {
+            const d = doneByLevel[lv], t = totalByLevel[lv];
+            const pct = t ? Math.round((d/t)*100) : 0;
+            return `<div><span class="label">L${lv}</span><span class="fill"><span style="width:${pct}%"></span></span><span class="num">${d}/${t}</span></div>`;
+          }).join('')}
+        </div>
+        <div class="admin-detail" id="detail-${user.id}" hidden></div>
+      `;
+      list.appendChild(card);
+    }
+    list.querySelectorAll('button[data-act]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        const act = btn.dataset.act;
+        if (act === 'delete') {
+          if (!confirm('Delete this student and all their progress?')) return;
+          await UserStore.deleteUser(id);
+          render();
+        } else if (act === 'view') {
+          const detail = document.getElementById('detail-' + id);
+          if (detail.hidden) {
+            const completed = await UserStore.getUserProgress(id);
+            const lessons = (window.LESSONS || []).filter((l) => completed.has(l.id));
+            detail.innerHTML = lessons.length
+              ? '<p class="kicker" style="margin-top:16px">COMPLETED LESSONS</p><ul style="margin:8px 0 0; padding-left:18px;">' +
+                lessons.map((l) => `<li style="margin:4px 0; font-size:13px;">${l.num} — ${l.title}</li>`).join('') +
+                '</ul>'
+              : '<p style="color:#888; margin-top:12px">No completed lessons yet.</p>';
+            detail.hidden = false;
+            btn.textContent = 'Hide';
+          } else {
+            detail.hidden = true;
+            btn.textContent = 'View';
+          }
+        }
+      });
+    });
+  }
+
+  if (stats.popular && stats.popular.length) {
+    const pop = document.getElementById('admin-popular');
+    const lessons = window.LESSONS || [];
+    pop.innerHTML = stats.popular.map((p) => {
+      const lesson = lessons.find((l) => l.id === p.id);
+      const name = lesson ? `${lesson.num} — ${lesson.title}` : p.id;
+      return `<li>${name} <span style="color:#888;font-family:'JetBrains Mono',monospace;font-size:12px;">— ${p.count} student${p.count===1?'':'s'}</span></li>`;
+    }).join('');
+    document.getElementById('popular-section').hidden = false;
+  }
+}
+render();
+</script>
+</body>
+</html>
