@@ -1,6 +1,6 @@
 // Apertura Service Worker — offline-first cache
 // v3: include auth.js with cache-busting query + delete all old caches aggressively
-const CACHE = 'apertura-v3';
+const CACHE = 'apertura-v4';
 const PRECACHE = [
   '/',
   '/index.html',

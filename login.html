@@ -82,7 +82,7 @@
   <a href="assessment.html"><span class="bn-icon">◎</span><span>Test</span></a>
 </nav>
 <script src="assets/script.js"></script>
-<script src="assets/auth.js"></script>
+<script src="assets/auth.js?v=4"></script>
 <script>
 document.getElementById('login-form').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -126,6 +126,17 @@ if (typeof window.UserStore === 'undefined' || typeof window.UserStore.login !==
     card.prepend(banner);
   }
 }
+// If still broken after auth.js self-heal — force a one-shot cache-bust reload
+setTimeout(() => {
+  if (typeof window.UserStore === 'undefined' || typeof window.UserStore.login !== 'function') {
+    const url = new URL(location.href);
+    if (!url.searchParams.has('cb')) {
+      url.searchParams.set('cb', Date.now());
+      console.warn('[login] UserStore missing — forcing cache-bust reload');
+      location.replace(url.toString());
+    }
+  }
+}, 800);
 // Render auth nav state
 (async () => {
   const u = await UserStore.currentUser();
