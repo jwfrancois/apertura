@@ -26,37 +26,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 });
 
-// ============ Floating ball ============
-(function () {
-  const ball = document.getElementById('floatingBall');
-  if (!ball) return;
-
-  // Animate in after page load
-  ball.style.opacity = '0';
-  ball.style.transform = 'translateY(20px)';
-  setTimeout(() => {
-    ball.style.opacity = '1';
-    ball.style.transform = 'translateY(0)';
-  }, 600);
-
-  const content = document.getElementById('ballContent');
-  if (content) {
-    content.addEventListener('click', (e) => {
-      e.stopPropagation();
-      window.open('https://agent.minimax.io/', '_blank');
-    });
-  }
-
-  const close = document.getElementById('ballClose');
-  if (close) {
-    close.addEventListener('click', (e) => {
-      e.stopPropagation();
-      ball.classList.add('hidden');
-    });
-  }
-})();
-
-// ============ Nav shadow on scroll ============
+// ============ Nav shadow on scroll ============// ============ Nav shadow on scroll ============
 const nav = document.querySelector('.nav');
 if (nav) {
   const onScroll = () => {
