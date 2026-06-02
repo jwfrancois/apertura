@@ -339,7 +339,19 @@ class UserStore {
 
 // Singleton
 if (typeof window !== 'undefined') {
-  window.UserStore = new UserStore();
+  const store = new UserStore();
+  // Sanity check — if a stale service worker served an old auth.js, the class
+  // would parse but methods would be missing. Detect and self-heal.
+  if (typeof store.register !== 'function' || typeof store.login !== 'function') {
+    console.error('[UserStore] register/login missing — auth.js is stale. Clearing caches and reloading.');
+    if ('caches' in self) {
+      caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))));
+    }
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.getRegistrations().then((regs) => regs.forEach((r) => r.unregister()));
+    }
+  }
+  window.UserStore = store;
   // Seed the demo admin on first load
   window.UserStore.seedDefaultAdmin().catch((e) => console.warn('Admin seed failed', e));
 }
