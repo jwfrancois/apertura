@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#000000" />
+<title>Gear Guide — Apertura</title>
+<meta name="description" content="Independent camera and lens recommendations for every budget — from a smartphone to a $6000 flagship body. Curated by skill level, with real specs and what to actually buy." />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23ff3b30'/%3E%3Ctext x='50' y='72' font-family='serif' font-size='80' font-weight='bold' text-anchor='middle' fill='white'%3EA%3Ctext%3E%3C/svg%3E" />
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23ff3b30'/%3E%3Ctext x='50' y='72' font-family='serif' font-size='80' font-weight='bold' text-anchor='middle' fill='white'%3EA%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="assets/style.css" />
+<style>
+/* ====== GEAR PAGE SPECIFICS ====== */
+.gear-tier { margin: 0 0 64px; border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+.gear-pick { display: grid; grid-template-columns: 140px 1fr; gap: 18px; align-items: center; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 12px; }
+.gear-pick-img { width: 140px; height: 140px; border-radius: 10px; background: var(--bg-soft); border: 1px solid var(--border); display: block; object-fit: cover; }
+.gear-pick-body { min-width: 0; }
+.gear-pick.primary { border-left: 3px solid var(--accent); }
+.gear-pick.primary .gear-pick-img { border-color: var(--accent); }
+.gear-pick-name { font-size: 17px; font-weight: 600; margin: 0 0 4px; }
+.gear-pick-meta { font-family: var(--font-mono); font-size: 12px; color: var(--text-3); margin: 0 0 10px; }
+.gear-pick-why { font-size: 14px; color: var(--text-2); line-height: 1.55; margin: 0; }
+@media (max-width: 600px) {
+  .gear-pick { grid-template-columns: 100px 1fr; gap: 14px; padding: 14px; }
+  .gear-pick-img { width: 100px; height: 100px; }
+}
+.gear-tier-header { padding: 24px 28px; background: var(--bg-soft); border-bottom: 1px solid var(--border); display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.gear-tier-header .tier-num { font-family: var(--font-mono); font-size: 12px; color: var(--text-3); letter-spacing: 0.12em; text-transform: uppercase; }
+.gear-tier-header h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin: 4px 0 0; }
+.gear-tier-header .price { font-family: var(--font-mono); font-size: 16px; color: var(--accent); font-weight: 500; white-space: nowrap; }
+.gear-tier-body { padding: 28px; }
+.gear-tier-body h3 { font-size: 14px; font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-2); margin: 24px 0 12px; }
+.gear-tier-body h3:first-child { margin-top: 0; }
+
+/* Hero strip showing iconic gear */
+.hero-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.hero-strip img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-soft); }
+@media (max-width: 900px) { .hero-strip { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 500px) { .hero-strip { grid-template-columns: repeat(2, 1fr); } }
+
+/* Spec table */
+.spec-table { width: 100%; border-collapse: collapse; margin: 16px 0 0; font-size: 13px; }
+.spec-table th, .spec-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.spec-table th { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); font-weight: 500; background: var(--bg-soft); }
+.spec-table tr:hover td { background: var(--bg-soft); }
+.spec-table td.model { font-weight: 600; color: var(--text); }
+.spec-table td.muted { color: var(--text-3); }
+.spec-table .yes { color: var(--accent); font-weight: 600; }
+.spec-table .no { color: var(--text-3); }
+.spec-table-wrap { overflow-x: auto; margin: 0 -28px; padding: 0 28px; }
+
+/* Mount grid */
+.mount-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 24px; }
+.mount-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; }
+.mount-card h4 { font-size: 16px; font-weight: 600; margin: 0 0 6px; }
+.mount-card .mount-vendor { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 12px; }
+.mount-card .lens-row { display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid var(--border); font-size: 13px; }
+.mount-card .lens-row .role { color: var(--text-2); }
+.mount-card .lens-row .pick { color: var(--text); font-weight: 500; text-align: right; }
+
+/* Decision guide cards */
+.decision-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 24px; }
+.decision-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; }
+.decision-card .q { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin: 0 0 6px; }
+.decision-card h4 { font-size: 17px; font-weight: 600; margin: 0 0 12px; }
+.decision-card p { font-size: 14px; color: var(--text-2); line-height: 1.55; margin: 0 0 12px; }
+.decision-card .pick-rec { font-family: var(--font-mono); font-size: 12px; color: var(--text); padding: 8px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; display: inline-block; }
+
+/* Avoid list */
+.avoid-list { display: grid; gap: 12px; margin-top: 16px; }
+.avoid-item { display: grid; grid-template-columns: auto 1fr; gap: 14px; padding: 14px 16px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 10px; }
+.avoid-item .x { color: var(--accent); font-family: var(--font-mono); font-weight: 600; font-size: 18px; line-height: 1; padding-top: 2px; }
+.avoid-item h4 { font-size: 14px; margin: 0 0 4px; font-weight: 600; }
+.avoid-item p { font-size: 13px; color: var(--text-2); margin: 0; line-height: 1.5; }
+
+/* Phone banner */
+.phone-banner { background: linear-gradient(135deg, var(--bg-soft) 0%, var(--surface) 100%); border: 1px solid var(--border); border-radius: 18px; padding: 32px 28px; margin: 0 0 56px; }
+.phone-banner h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 10px; }
+.phone-banner .phone-sub { color: var(--text-2); font-size: 15px; max-width: 640px; line-height: 1.55; margin: 0 0 20px; }
+.phone-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.phone-pick { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+.phone-pick-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; margin-bottom: 12px; background: var(--bg-soft); }
+.phone-pick h4 { font-size: 15px; margin: 0 0 4px; }
+.phone-pick .p-meta { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); margin: 0 0 8px; }
+.phone-pick p { font-size: 12px; color: var(--text-2); margin: 0; line-height: 1.5; }
+
+/* Mount card with hero lens */
+.mount-hero { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+.mount-hero img { width: 120px; height: 90px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+.mount-hero .mh-text { flex: 1; }
+.mount-hero .mh-text h4 { margin: 0 0 4px; }
+.mount-hero .mh-text .mount-vendor { margin: 0; }
+
+/* Small TOC for nav */
+.gear-toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 0; }
+.gear-toc a { display: inline-block; padding: 8px 14px; border: 1px solid var(--border); border-radius: 999px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-2); text-decoration: none; transition: all 0.2s; }
+.gear-toc a:hover { background: var(--surface); color: var(--text); border-color: var(--border-strong); }
+
+@media (max-width: 700px) {
+  .gear-tier-header { flex-direction: column; align-items: flex-start; }
+  .spec-table { font-size: 12px; }
+  .spec-table th, .spec-table td { padding: 10px 8px; }
+}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html" aria-label="Apertura home">
+      <span class="brand-mark" aria-hidden="true">A</span>
+      <span class="brand-word">Apertura</span>
+    </a>
+    <nav class="top-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="curriculum.html">Curriculum</a>
+      <a href="resources.html">Resources</a>
+      <a href="history.html">History</a>
+      <a href="careers.html">Careers</a>
+      <a href="glossary.html">Glossary</a>
+    </nav>
+    <div class="auth-nav" data-auth-nav></div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="drawer" id="drawer" hidden>
+    <a href="index.html">Home</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="resources.html">Resources</a>
+    <a href="history.html">History</a>
+    <a href="careers.html">Careers</a>
+    <a href="glossary.html">Glossary</a>
+    <a href="gear.html">Gear</a>
+    <a href="assessment.html">Assessment</a>
+    <a href="about.html">About</a>
+  </div>
+</header>
+<main id="main" class="gear-main">
+<section class="page-hero">
+  <div class="container">
+    <div class="eyebrow">Independent Recommendations · 2025–2026</div>
+    <h1>Gear Guide</h1>
+    <p class="hero-sub">What to actually buy at every budget — from a smartphone you'll shoot with for the next year, to a $6,000 flagship body that will outlive your next three laptops. We recommend by skill level and use case, not by spec sheet.</p>
+  </div>
+  <div class="container">
+    <nav class="gear-toc" aria-label="On this page">
+      <a href="#phones">Tier 0 · Phones</a>
+      <a href="#tier1">Tier 1 · First Camera</a>
+      <a href="#tier2">Tier 2 · Serious Hobbyist</a>
+      <a href="#tier3">Tier 3 · Enthusiast</a>
+      <a href="#tier4">Tier 4 · Professional</a>
+      <a href="#comparison">Side-by-Side</a>
+      <a href="#lenses">Lens Ecosystems</a>
+      <a href="#decision">Decision Guide</a>
+      <a href="#avoid">What to Avoid</a>
+    </nav>
+  </div>
+  <div class="container" style="margin-top:32px">
+    <div class="hero-strip">
+      <img src="images/gear/fuji-xt5.webp" alt="Fujifilm X-T5" loading="lazy" />
+      <img src="images/gear/sony-a7m5.webp" alt="Sony a7 V" loading="lazy" />
+      <img src="images/gear/canon-r6m3.webp" alt="Canon EOS R6 Mark III" loading="lazy" />
+      <img src="images/gear/nikon-z8.webp" alt="Nikon Z8" loading="lazy" />
+      <img src="images/gear/lens-50mm.webp" alt="50mm f/1.8 prime lens" loading="lazy" />
+      <img src="images/gear/lens-70-200mm.webp" alt="70-200mm telephoto" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<div class="container" style="margin-top:48px">
+
+  <!-- ====== PHONES ====== -->
+  <section id="phones" class="phone-banner">
+    <h2>Start with what you have</h2>
+    <p class="phone-sub">Modern phones (2023 or newer) take genuinely excellent photos in good light. If you are at Level 1 of the curriculum, the most expensive thing you can do is skip the camera purchase and <strong>spend your first six months learning composition and light with the camera you already carry every day</strong>. When you outgrow the phone — when you find yourself wanting shallow depth of field, optical zoom, or low-light performance that a phone physically cannot deliver — that is the right time to buy a real camera.</p>
+    <h3 style="font-size:12px;font-family:var(--font-mono);letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin:24px 0 12px">Best camera phones (2025–2026)</h3>
+    <div class="phone-grid">
+      <div class="phone-pick">
+        <img class="phone-pick-img" src="images/gear/iphone-17-pro.webp" alt="Apple iPhone 17 Pro Max product photo showing titanium body and triple camera array" loading="lazy" />
+        <h4>Apple iPhone 17 Pro / Pro Max</h4>
+        <p class="p-meta">$999 / $1,199 · 48MP main + 48MP UW + 12MP 5x tele</p>
+        <p>Best-in-class video, 4K/120fps, ProRAW + LOG. The default choice if you shoot video at all.</p>
+      </div>
+      <div class="phone-pick">
+        <img class="phone-pick-img" src="images/gear/pixel-10-pro.webp" alt="Google Pixel 10 Pro product photo showing obsidian black body and camera bar" loading="lazy" />
+        <h4>Google Pixel 10 Pro / Pro XL</h4>
+        <p class="p-meta">$999 / $1,099 · 50MP main + 48MP UW + 48MP 5x tele</p>
+        <p>AI-driven computational photography, outstanding low-light and night mode, best point-and-shoot on Android.</p>
+      </div>
+      <div class="phone-pick">
+        <img class="phone-pick-img" src="images/gear/galaxy-s26-ultra.webp" alt="Samsung Galaxy S26 Ultra product photo showing titanium silver body and multiple rear cameras" loading="lazy" />
+        <h4>Samsung Galaxy S26 Ultra</h4>
+        <p class="p-meta">$1,299 · 200MP main + 50MP UW + dual tele (3x + 5x)</p>
+        <p>Most versatile hardware with two real telephotos (3x and 5x periscope) and 100x Space Zoom.</p>
+      </div>
+      <div class="phone-pick" style="background:var(--bg-soft);opacity:0.92">
+        <div class="phone-pick-img" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a1a 0%,#2a2a2a 100%);color:#888;font-size:48px;font-weight:800;font-family:var(--font-mono)">$</div>
+        <h4>Google Pixel 10a</h4>
+        <p class="p-meta">~$500 · 48MP main</p>
+        <p>Budget pick. The main camera is nearly indistinguishable from the 10 Pro in good light. Best value in phones.</p>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--text-3);margin:20px 0 0;font-family:var(--font-mono)">Pro tip · Shoot in ProRAW (iPhone) or RAW (Pixel Expert RAW, Samsung Expert RAW). The whole point of using a phone at this stage is to learn the RAW editing workflow before you spend money on a real camera.</p>
+  </section>
+
+  <!-- ====== TIER 1: First Camera (~$500-900) ====== -->
+  <section id="tier1" class="gear-tier">
+    <div class="gear-tier-header">
+      <div>
+        <p class="tier-num">Tier 1 · Beginner</p>
+        <h2>Your first interchangeable-lens camera</h2>
+      </div>
+      <p class="price">$500 – $900 with kit lens</p>
+    </div>
+    <div class="gear-tier-body">
+      <p style="font-size:15px;color:var(--text-2);line-height:1.6;margin:0 0 16px">You have completed the Foundation level. You understand exposure, focus, and white balance. You want a real camera with a larger sensor than a phone, manual controls, and the ability to swap lenses. <strong>Do not spend more than $900 on a body at this stage.</strong> The skill ceiling of a $900 body is well above your current skill ceiling — save the rest for lenses, which you will keep for years; camera bodies change every 3-5 years.</p>
+
+      <h3>Top picks</h3>
+      <div class="gear-pick primary">
+        <img class="gear-pick-img" src="images/gear/fuji-xt30iii.webp" alt="Fujifilm X-T30 III product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Fujifilm X-T30 III</p>
+                <p class="gear-pick-meta">APS-C · 26MP · 4K/60p · ~$900 with 18-55mm kit · Fuji X mount</p>
+                <p class="gear-pick-why">Compact, beautiful retro dials that teach you to think in physical aperture/shutter/ISO dials. Fuji's film simulations mean you can deliver JPEGs straight out of camera while you learn. The X-mount lens lineup is one of the best in any system. <strong>Best for: students who want to learn on dials, not menus.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/sony-a6700.webp" alt="Sony α6100 (refurbished) or α6400 product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Sony α6100 (refurbished) or α6400</p>
+                <p class="gear-pick-meta">APS-C · 24MP · 4K/30p · $700-$1,000 · Sony E mount</p>
+                <p class="gear-pick-why">Sony's autofocus is class-leading — you will not miss shots. Most lens selection of any APS-C system. Slightly more menu-driven than the Fuji. <strong>Best for: students who want the widest lens choice and best tracking autofocus.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/canon-r50.webp" alt="Canon EOS R50 product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Canon EOS R50</p>
+                <p class="gear-pick-meta">APS-C · 24MP · 4K/30p · ~$680 with 18-45mm · Canon RF mount</p>
+                <p class="gear-pick-why">Lightest and most beginner-friendly. Excellent subject-detection AF. Limited RF-S native lens selection, but can mount full-frame RF lenses. <strong>Best for: total beginners who want the lightest possible body and the most guided menus.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/nikon-z50m2.webp" alt="Nikon Z50 II product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Nikon Z50 II</p>
+                <p class="gear-pick-meta">APS-C · 20MP · 4K/60p · ~$1,000 with 16-50mm · Nikon Z mount</p>
+                <p class="gear-pick-why">Best-in-class ergonomics for the price. Excellent subject-recognition AF inherited from the Z8/Z9. Built-in flash (rare these days). Battery life is the weakness — buy a spare. <strong>Best for: students who want to grow into the full-frame Z system later.</strong></p>
+        </div>
+      </div>
+
+      <h3>What to buy with the body</h3>
+      <p style="font-size:14px;color:var(--text-2);line-height:1.6;margin:0 0 12px">Skip the manufacturer kit zoom for the second lens. Use the kit zoom for 30 days, then buy one fast prime (nifty fifty). On a phone, you cannot blur the background. On a camera, a 50mm f/1.8 is the cheapest way to learn what shallow depth of field actually feels like.</p>
+      <ul style="font-size:14px;color:var(--text-2);line-height:1.7;padding-left:18px;margin:0 0 0">
+        <li><strong>First add-on lens:</strong> A "nifty fifty" — the 50mm f/1.8 in your mount. Usually $100-$200 used. Teaches you everything about depth of field.</li>
+        <li><strong>Memory card:</strong> One fast UHS-II SD card (64GB minimum). Skip the manufacturer's bundled card if it is slow.</li>
+        <li><strong>Skip for now:</strong> Tripod, flash, filters, extra batteries (you can add one battery in month 3 if you need it).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====== TIER 2: Serious Hobbyist (~$1,000-1,800) ====== -->
+  <section id="tier2" class="gear-tier">
+    <div class="gear-tier-header">
+      <div>
+        <p class="tier-num">Tier 2 · Intermediate</p>
+        <h2>Your first full-frame (or high-end APS-C) camera</h2>
+      </div>
+      <p class="price">$1,200 – $1,800 with kit lens</p>
+    </div>
+    <div class="gear-tier-body">
+      <p style="font-size:15px;color:var(--text-2);line-height:1.6;margin:0 0 16px">You have completed the Intermediate level. You have shot 5,000+ frames. You know what you like to photograph. You want shallower depth of field, better low-light performance, and the confidence to shoot at ISO 6400 without worry. <strong>This is the sweet spot for most serious hobbyists</strong> — full-frame sensors deliver visibly better images than phones or entry-level APS-C in any condition that is not bright daylight.</p>
+
+      <h3>Top picks (full-frame)</h3>
+      <div class="gear-pick primary">
+        <img class="gear-pick-img" src="images/gear/nikon-z5m2.webp" alt="Nikon Z5 II product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Nikon Z5 II</p>
+                <p class="gear-pick-meta">Full-frame · 24MP · 4K/60p · 5-axis IBIS · ~$1,500 with 24-50mm kit</p>
+                <p class="gear-pick-why">The best value in full-frame mirrorless right now. Excellent dynamic range, accurate subject-recognition AF, 5-axis in-body stabilization, weather sealing. <strong>Best for: hobbyists who want to grow into pro-grade Z-mount glass over the next 5-10 years.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/canon-r8.webp" alt="Canon EOS R8 product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Canon EOS R8</p>
+                <p class="gear-pick-meta">Full-frame · 24MP · 4K/60p · 40fps electronic · ~$1,500 body only</p>
+                <p class="gear-pick-why">Lightest full-frame Canon ever made. 40fps burst is overkill for stills but amazing for wildlife/action. No IBIS (Canon's trade-off for weight savings). <strong>Best for: hybrid shooters who do equal video and stills.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/sony-a7cm2.webp" alt="Sony α7C II product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Sony α7C II</p>
+                <p class="gear-pick-meta">Full-frame · 33MP · 4K/60p · AI subject detection · ~$2,200 with 28-60mm</p>
+                <p class="gear-pick-why">The most compact full-frame body with the same sensor as the A7 IV. AI-driven autofocus inherited from the A7R V. The Sony E-mount lens lineup is the largest and most diverse of any system. <strong>Best for: travel photographers and anyone who wants full-frame in the smallest possible body.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/sony-a7m4.webp" alt="Sony α7 IV (used or refurbished) product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Sony α7 IV (used or refurbished)</p>
+                <p class="gear-pick-meta">Full-frame · 33MP · 4K/60p (1.5x crop) · ~$1,500 used</p>
+                <p class="gear-pick-why">The workhorse of the last 5 years. Used prices have dropped significantly as the A7 V arrives. Still 90% of the camera the A7 V is. <strong>Best for: budget-conscious buyers who want the Sony system without the A7 V premium.</strong></p>
+        </div>
+      </div>
+
+      <h3>Top picks (premium APS-C — staying in crop)</h3>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/fuji-xt5.webp" alt="Fujifilm X-T5 product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Fujifilm X-T5</p>
+                <p class="gear-pick-meta">APS-C · 40MP · 6.2K video · 5-axis IBIS · ~$1,700 with 18-55mm</p>
+                <p class="gear-pick-why">40MP on APS-C is class-leading resolution. Beautiful retro controls. Best-in-class film simulations. The X-mount lens system is genuinely deep. <strong>Best for: photographers who do not need full-frame bokeh but want the highest-resolution APS-C body.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/sony-a6700.webp" alt="Sony α6700 product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Sony α6700</p>
+                <p class="gear-pick-meta">APS-C · 26MP · 4K/120p · 759-point AF · ~$1,400 body only</p>
+                <p class="gear-pick-why">Sony's best APS-C body. Class-leading autofocus. 4K/120p for slow motion. Uses the same E-mount as Sony's full-frame bodies, so lenses are interchangeable. <strong>Best for: hybrid APS-C shooters who want Sony AF and lens ecosystem.</strong></p>
+        </div>
+      </div>
+
+      <h3>What to buy with the body</h3>
+      <ul style="font-size:14px;color:var(--text-2);line-height:1.7;padding-left:18px;margin:0 0 0">
+        <li><strong>50mm f/1.8 (or 35mm f/1.8 for wider view)</strong> — the nifty fifty, in your mount. $100-$300. Teaches you depth of field.</li>
+        <li><strong>24-70mm f/2.8 (used) or f/4 (new)</strong> — the workhorse zoom for events, travel, and family. $500-$1,000.</li>
+        <li><strong>One specialty prime</strong> — 85mm for portraits, 35mm for street, 16-35mm wide-angle for landscapes. Add as your work demands it.</li>
+        <li><strong>Memory cards:</strong> 2x UHS-II SD (or CFexpress Type A/B if you bought a Sony/Canon flagship). The kit card is always too slow.</li>
+        <li><strong>1-2 spare batteries.</strong> Mirrorless chews power; you will need them on a full shoot day.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====== TIER 3: Enthusiast (~$1,800-3,000) ====== -->
+  <section id="tier3" class="gear-tier">
+    <div class="gear-tier-header">
+      <div>
+        <p class="tier-num">Tier 3 · Advanced</p>
+        <h2>High-end full-frame for serious work</h2>
+      </div>
+      <p class="price">$1,900 – $3,000 body only</p>
+    </div>
+    <div class="gear-tier-body">
+      <p style="font-size:15px;color:var(--text-2);line-height:1.6;margin:0 0 16px">You are working photographers, advanced students, or serious hobbyists producing portfolio-grade work. You shoot in difficult conditions — events, weddings, wildlife, low light, fast action. You need reliable autofocus that just works, dual card slots, weather sealing, and a body that will not let you down on a paid shoot. <strong>These are the mid-range full-frame bodies that competing reviews call "the best balance" in 2025–2026.</strong></p>
+
+      <h3>Top picks</h3>
+      <div class="gear-pick primary">
+        <img class="gear-pick-img" src="images/gear/sony-a7m5.webp" alt="Sony α7 V product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Sony α7 V</p>
+                <p class="gear-pick-meta">Full-frame · 33MP partially-stacked · 30fps electronic · 4K/60p · ~$2,900 body</p>
+                <p class="gear-pick-why">The most balanced full-frame of 2025. Sony's first partially-stacked sensor in an A7 body, fixing the rolling shutter of the A7 IV. 16 stops of dynamic range (best in class). Sony's AI-powered subject detection AF is still class-leading. <strong>Best for: working photographers who do mixed work — stills, video, portraits, events — and need one body to do it all.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/canon-r6m3.webp" alt="Canon EOS R6 Mark III product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Canon EOS R6 Mark III</p>
+                <p class="gear-pick-meta">Full-frame · 33MP · 40fps electronic · 7K RAW video · ~$2,800 body</p>
+                <p class="gear-pick-why">Canon's most reliable autofocus in 2025. The 40fps electronic shutter is class-leading for action. 7K RAW internal video. Trade-off: no stacked sensor (rolling shutter is slightly worse than the A7 V in silent shooting). <strong>Best for: sports, wildlife, and event photographers who need bulletproof AF.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/nikon-z6m3.webp" alt="Nikon Z6 III product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Nikon Z6 III</p>
+                <p class="gear-pick-meta">Full-frame · 24MP partially-stacked · 20fps electronic · 6K RAW · ~$2,100 body</p>
+                <p class="gear-pick-why">The best value in this tier. Sensor readout speed rivals much pricier stacked-sensor bodies (great for video). Best-in-class low-light AF. Slightly lower resolution than the A7 V and R6 III, but the dynamic range is the same. <strong>Best for: photographers who want 90% of flagship performance at 70% of the price.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/nikon-zf.webp" alt="Nikon Zf product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Nikon Zf</p>
+                <p class="gear-pick-meta">Full-frame · 24MP · 5-axis IBIS · retro dials · ~$2,000 with 40mm SE</p>
+                <p class="gear-pick-why">A full-frame body in the chassis of an FM2 film camera. Mechanical dials for ISO, shutter, and exposure compensation. Same sensor as the Z5 II but with a much better AF system. <strong>Best for: photographers who want full-frame quality and the experience of shooting with dials.</strong></p>
+        </div>
+      </div>
+
+      <h3>What to buy with the body</h3>
+      <ul style="font-size:14px;color:var(--text-2);line-height:1.7;padding-left:18px;margin:0 0 0">
+        <li><strong>24-70mm f/2.8</strong> — the most important professional zoom. $900-$2,300 depending on mount. Use it for two years before adding anything else.</li>
+        <li><strong>70-200mm f/2.8 (or 50-150mm f/2 on Sony)</strong> — for events, weddings, sports. $1,300-$2,800.</li>
+        <li><strong>85mm f/1.8 (or 85mm f/1.4 GM if budget allows)</strong> — for portraits and low-light. $600-$1,800.</li>
+        <li><strong>35mm f/1.4 or f/1.8</strong> — for documentary, street, environmental portraits.</li>
+        <li><strong>Memory cards:</strong> Match the body's spec. CFexpress Type B for Nikon Z6 III and Canon R6 III. CFexpress Type A or UHS-II SD for Sony A7 V.</li>
+        <li><strong>2-3 spare batteries</strong> and a USB-C charger that charges in-camera.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====== TIER 4: Professional (~$3,500-6,500) ====== -->
+  <section id="tier4" class="gear-tier">
+    <div class="gear-tier-header">
+      <div>
+        <p class="tier-num">Tier 4 · Professional</p>
+        <h2>Flagship bodies for working pros</h2>
+      </div>
+      <p class="price">$3,500 – $6,500 body only</p>
+    </div>
+    <div class="gear-tier-body">
+      <p style="font-size:15px;color:var(--text-2);line-height:1.6;margin:0 0 16px">You earn money from photography. Your gear has to work in rain, dust, sub-zero temperatures, and 14-hour shoot days. Resolution, speed, and reliability matter. <strong>These are the bodies that the working pros actually buy</strong> — not the marketing-flagship show ponies.</p>
+
+      <h3>Top picks</h3>
+      <div class="gear-pick primary">
+        <img class="gear-pick-img" src="images/gear/sony-a7rm5.webp" alt="Sony α7R V (A7R5) product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Sony α7R V (A7R5)</p>
+                <p class="gear-pick-meta">Full-frame · 61MP stacked · 8K/24p · 10fps · ~$3,900 body</p>
+                <p class="gear-pick-why">The highest-resolution full-frame body in production. 61MP gives genuine medium-format-like cropping latitude. 8K video. Best landscape and studio camera on the market. Trade-off: 10fps (not a speed body). <strong>Best for: landscape, architecture, studio, fashion, and product work where detail and cropping matter more than speed.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/canon-r5m2.webp" alt="Canon EOS R5 Mark II product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Canon EOS R5 Mark II</p>
+                <p class="gear-pick-meta">Full-frame · 45MP stacked · 30fps electronic · 8K/60p RAW · ~$4,300 body</p>
+                <p class="gear-pick-why">The best balanced one-body solution in 2025. 45MP stacked sensor. 30fps with full AF/AE. 8K/60p RAW internal. The most versatile pro body on the market. <strong>Best for: working pros who need one body that handles stills and video across every genre.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/nikon-z8.webp" alt="Nikon Z8 product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Nikon Z8</p>
+                <p class="gear-pick-meta">Full-frame · 45MP stacked · 20fps · 8K/60p RAW · ~$4,000 body</p>
+                <p class="gear-pick-why">The "mini Z9." Same stacked sensor as the flagship, in a smaller body, $2,000 cheaper. Best-in-class RAW video. Nikon ergonomics are unbeatable. Trade-off: battery life is shorter than the Z9; some users miss the vertical grip. <strong>Best for: pros who shoot a lot of video alongside stills, and value ergonomics.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/nikon-z9.webp" alt="Nikon Z9 product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Nikon Z9</p>
+                <p class="gear-pick-meta">Full-frame · 45MP stacked · 20fps · 8K/60p RAW · integrated grip · ~$5,500 body</p>
+                <p class="gear-pick-why">Nikon's flagship. Built-in vertical grip. Mechanical shutter removed entirely (replaced with electronic). Pro build. The workhorse for sports and wildlife at Nikon. <strong>Best for: sports, wildlife, and news photographers who shoot thousands of frames a day.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/sony-a1m2.webp" alt="Sony α1 II product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Sony α1 II</p>
+                <p class="gear-pick-meta">Full-frame · 50MP stacked · 30fps · 8K/30p · ~$6,500 body</p>
+                <p class="gear-pick-why">The most expensive — and the most capable — body on the market in 2025. 50MP + 30fps + 8K in a single body. Sony's flagship. No real weakness. Trade-off: the price. <strong>Best for: pros who need everything (resolution, speed, video) in one body, and can write off the cost against revenue.</strong></p>
+        </div>
+      </div>
+      <div class="gear-pick">
+        <img class="gear-pick-img" src="images/gear/sony-a9m3.webp" alt="Sony α9 III product photo" loading="lazy" />
+        <div class="gear-pick-body">
+                <p class="gear-pick-name">Sony α9 III</p>
+                <p class="gear-pick-meta">Full-frame · 24MP global shutter · 120fps · 6K video · ~$6,000 body</p>
+                <p class="gear-pick-why">The only full-frame camera with a global shutter — no rolling shutter at all, no flash sync limit, blackout-free 120fps. The fastest sports body in production. <strong>Best for: sports and action specialists who need every technical advantage.</strong></p>
+        </div>
+      </div>
+
+      <h3>What to buy with the body</h3>
+      <ul style="font-size:14px;color:var(--text-2);line-height:1.7;padding-left:18px;margin:0 0 0">
+        <li><strong>The "trinity" zooms:</strong> 16-35mm f/2.8, 24-70mm f/2.8, 70-200mm f/2.8. Together: $4,000-$7,000. These three lenses cover 90% of professional work.</li>
+        <li><strong>Two flagship primes:</strong> Usually 35mm f/1.4 and 85mm f/1.4. $1,500-$2,800 each.</li>
+        <li><strong>Two of every body</strong> if you shoot paid work. Redundancy is non-negotiable.</li>
+        <li><strong>CFexpress cards:</strong> 2x 256GB minimum, Type A (Sony) or Type B (Canon/Nikon).</li>
+        <li><strong>4-6 batteries</strong> + dual charger. Mirrorless flagships eat power at 30fps.</li>
+        <li><strong>Hard drives:</strong> Two copies of every shoot, on different media, with one offsite. See the Pricing &amp; Licensing lesson for the discipline of archive management.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ====== COMPARISON TABLE ====== -->
+  <section id="comparison" style="margin: 0 0 64px">
+    <p class="kicker">SIDE BY SIDE</p>
+    <h2>All bodies at a glance</h2>
+    <p style="color:var(--text-2);max-width:720px;line-height:1.6;margin:8px 0 24px">Every camera on this page in one table. Prices are approximate US dollar street prices for new bodies (2025–2026). The check marks indicate features that meaningfully affect the photographer's experience, not just spec-sheet wins.</p>
+    <div class="spec-table-wrap">
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Sensor</th>
+            <th>MP</th>
+            <th>IBIS</th>
+            <th>Burst (e-shutter)</th>
+            <th>4K Video</th>
+            <th>AF Subject AI</th>
+            <th>Weight</th>
+            <th>Price (new)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="model">Fujifilm X-T30 III</td><td>APS-C</td><td>26</td><td class="no">No</td><td>20 fps</td><td>4K/60p</td><td class="yes">Yes</td><td>383g</td><td>$900 (kit)</td></tr>
+          <tr><td class="model">Sony α6100</td><td>APS-C</td><td>24</td><td class="no">No</td><td>11 fps</td><td>4K/30p</td><td class="yes">Yes</td><td>396g</td><td>$750 (used)</td></tr>
+          <tr><td class="model">Canon EOS R50</td><td>APS-C</td><td>24</td><td class="no">No</td><td>12 fps</td><td>4K/30p</td><td class="yes">Yes</td><td>328g</td><td>$680 (kit)</td></tr>
+          <tr><td class="model">Nikon Z50 II</td><td>APS-C</td><td>20</td><td class="yes">Yes</td><td>11 fps</td><td>4K/60p</td><td class="yes">Yes</td><td>450g</td><td>$1,000 (kit)</td></tr>
+          <tr><td class="model">Sony α6700</td><td>APS-C</td><td>26</td><td class="yes">Yes</td><td>11 fps</td><td>4K/120p</td><td class="yes">Yes</td><td>493g</td><td>$1,400</td></tr>
+          <tr><td class="model">Fujifilm X-T5</td><td>APS-C</td><td>40</td><td class="yes">Yes</td><td>15 fps</td><td>6.2K/30p</td><td class="yes">Yes</td><td>557g</td><td>$1,700 (kit)</td></tr>
+          <tr><td class="model">Nikon Z5 II</td><td>FF</td><td>24</td><td class="yes">Yes</td><td>11 fps</td><td>4K/60p</td><td class="yes">Yes</td><td>670g</td><td>$1,500 (kit)</td></tr>
+          <tr><td class="model">Canon EOS R8</td><td>FF</td><td>24</td><td class="no">No</td><td>40 fps</td><td>4K/60p</td><td class="yes">Yes</td><td>461g</td><td>$1,500</td></tr>
+          <tr><td class="model">Sony α7C II</td><td>FF</td><td>33</td><td class="yes">Yes</td><td>10 fps</td><td>4K/60p</td><td class="yes">Yes</td><td>514g</td><td>$2,200 (kit)</td></tr>
+          <tr><td class="model">Sony α7 IV (used)</td><td>FF</td><td>33</td><td class="yes">Yes</td><td>10 fps</td><td>4K/60p (crop)</td><td class="yes">Yes</td><td>659g</td><td>$1,500 used</td></tr>
+          <tr><td class="model">Nikon Zf</td><td>FF</td><td>24</td><td class="yes">Yes</td><td>14 fps</td><td>4K/60p</td><td class="yes">Yes</td><td>710g</td><td>$2,000 (kit)</td></tr>
+          <tr><td class="model">Nikon Z6 III</td><td>FF</td><td>24</td><td class="yes">Yes</td><td>20 fps</td><td>6K/60p RAW</td><td class="yes">Yes</td><td>760g</td><td>$2,100</td></tr>
+          <tr><td class="model">Canon EOS R6 III</td><td>FF</td><td>33</td><td class="yes">Yes</td><td>40 fps</td><td>7K/60p RAW</td><td class="yes">Yes</td><td>670g</td><td>$2,800</td></tr>
+          <tr><td class="model">Sony α7 V</td><td>FF</td><td>33</td><td class="yes">Yes</td><td>30 fps</td><td>4K/60p</td><td class="yes">Yes</td><td>658g</td><td>$2,900</td></tr>
+          <tr><td class="model">Sony α7R V</td><td>FF</td><td>61</td><td class="yes">Yes</td><td>10 fps</td><td>8K/24p</td><td class="yes">Yes</td><td>723g</td><td>$3,900</td></tr>
+          <tr><td class="model">Nikon Z8</td><td>FF</td><td>45</td><td class="yes">Yes</td><td>20 fps</td><td>8K/60p RAW</td><td class="yes">Yes</td><td>910g</td><td>$4,000</td></tr>
+          <tr><td class="model">Canon EOS R5 II</td><td>FF</td><td>45</td><td class="yes">Yes</td><td>30 fps</td><td>8K/60p RAW</td><td class="yes">Yes</td><td>746g</td><td>$4,300</td></tr>
+          <tr><td class="model">Nikon Z9</td><td>FF</td><td>45</td><td class="yes">Yes</td><td>20 fps</td><td>8K/60p RAW</td><td class="yes">Yes</td><td>1,340g</td><td>$5,500</td></tr>
+          <tr><td class="model">Sony α9 III</td><td>FF</td><td>24</td><td class="yes">Yes</td><td>120 fps</td><td>4K/120p</td><td class="yes">Yes</td><td>703g</td><td>$6,000</td></tr>
+          <tr><td class="model">Sony α1 II</td><td>FF</td><td>50</td><td class="yes">Yes</td><td>30 fps</td><td>8K/30p</td><td class="yes">Yes</td><td>743g</td><td>$6,500</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ====== LENS ECOSYSTEMS ====== -->
+  <section id="lenses" style="margin: 0 0 64px">
+    <p class="kicker">LENS ECOSYSTEMS</p>
+    <h2>The mount matters more than the body</h2>
+    <p style="color:var(--text-2);max-width:720px;line-height:1.6;margin:8px 0 8px">You are not buying a camera. You are buying into a <strong>lens mount</strong> — the system of lenses you will use for the next decade. Bodies change every 3-5 years. Lenses change every 10-20. Choose the mount you want to grow into, then pick the body that gets you into it affordably.</p>
+    <p style="color:var(--text-2);max-width:720px;line-height:1.6;margin:8px 0 0">Three rules of thumb for first lenses after your kit zoom:</p>
+    <ul style="font-size:14px;color:var(--text-2);line-height:1.7;padding-left:18px;margin:8px 0 24px;max-width:720px">
+      <li><strong>Buy the 50mm f/1.8 first.</strong> Cheap, sharp, teaches you depth of field. Every system has one. ($100-$300)</li>
+      <li><strong>Then the 24-70mm f/2.8</strong> (or f/4 if budget is tight). The professional standard zoom. Use it for a year before adding anything else. ($500-$2,300)</li>
+      <li><strong>Then a specialty prime</strong> — 35mm, 85mm, or 16-35mm depending on what you actually shoot. By this point you will know.</li>
+    </ul>
+
+    <div class="mount-grid">
+      <div class="mount-card">
+        <div class="mount-hero">
+          <img src="images/gear/lens-50mm.webp" alt="50mm prime lens product photo" loading="lazy" />
+          <div class="mh-text">
+            <h4>Sony E / FE</h4>
+            <p class="mount-vendor">Sony · 400+ lenses</p>
+          </div>
+        </div>
+        <div class="lens-row"><span class="role">50mm nifty fifty</span><span class="pick">Sony FE 50 f/1.8 (~$200)</span></div>
+        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Tamron 28-75 f/2.8 G2 (~$700)</span></div>
+        <div class="lens-row"><span class="role">Pro zoom</span><span class="pick">Sony 24-70 f/2.8 GM II (~$2,300)</span></div>
+        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Sony 70-200 f/2.8 GM II (~$2,800)</span></div>
+        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Sony 85 f/1.8 (~$600)</span></div>
+        <div class="lens-row"><span class="role">Budget 3rd party</span><span class="pick">Viltrox 85 f/2 Evo (~$370)</span></div>
+        <p style="font-size:12px;color:var(--text-3);margin:12px 0 0">Largest and most diverse ecosystem. The safe long-term choice.</p>
+      </div>
+
+      <div class="mount-card">
+        <div class="mount-hero">
+          <img src="images/gear/lens-24-70mm.webp" alt="24-70mm professional zoom lens" loading="lazy" />
+          <div class="mh-text">
+            <h4>Canon RF / RF-S</h4>
+            <p class="mount-vendor">Canon · 80+ native RF lenses</p>
+          </div>
+        </div>
+        <div class="lens-row"><span class="role">50mm nifty fifty</span><span class="pick">Canon RF 50 f/1.8 STM (~$130)</span></div>
+        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Canon RF 24-70 f/2.8 L (~$1,900)</span></div>
+        <div class="lens-row"><span class="role">Budget zoom</span><span class="pick">Canon RF 24-105 f/4-7.1 (kit)</span></div>
+        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Canon RF 70-200 f/2.8 L (~$2,700)</span></div>
+        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Canon RF 85 f/1.2 L (~$2,400)</span></div>
+        <div class="lens-row"><span class="role">Wide</span><span class="pick">Canon RF 16-35 f/4 L (~$1,400)</span></div>
+        <p style="font-size:12px;color:var(--text-3);margin:12px 0 0">Canon restricts third-party AF lenses on RF mount. Native lineup is small but excellent.</p>
+      </div>
+
+      <div class="mount-card">
+        <div class="mount-hero">
+          <img src="images/gear/lens-70-200mm.webp" alt="70-200mm telephoto zoom lens" loading="lazy" />
+          <div class="mh-text">
+            <h4>Nikon Z (FX & DX)</h4>
+            <p class="mount-vendor">Nikon · 100+ native lenses</p>
+          </div>
+        </div>
+        <div class="lens-row"><span class="role">50mm nifty fifty</span><span class="pick">Nikon Z 50 f/1.8 S (~$630) or Viltrox 50 f/1.8 (~$250)</span></div>
+        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Nikon Z 24-70 f/4 S (~$1,000)</span></div>
+        <div class="lens-row"><span class="role">Pro zoom</span><span class="pick">Nikon Z 24-70 f/2.8 S (~$2,000)</span></div>
+        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Nikon Z 70-200 f/2.8 S (~$2,600)</span></div>
+        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Nikon Z 85 f/1.8 S (~$800)</span></div>
+        <div class="lens-row"><span class="role">Travel</span><span class="pick">Nikon Z 24-120 f/4 S (~$1,000)</span></div>
+        <p style="font-size:12px;color:var(--text-3);margin:12px 0 0">Mature system, excellent optics, growing third-party support from Viltrox and Tamron.</p>
+      </div>
+
+      <div class="mount-card">
+        <div class="mount-hero">
+          <img src="images/gear/lens-85mm.webp" alt="85mm portrait prime lens" loading="lazy" />
+          <div class="mh-text">
+            <h4>Fujifilm X</h4>
+            <p class="mount-vendor">Fujifilm · 40+ native lenses (APS-C only)</p>
+          </div>
+        </div>
+        <div class="lens-row"><span class="role">35mm equivalent</span><span class="pick">Fujifilm 35 f/2 (~$400)</span></div>
+        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Fujifilm 16-55 f/2.8 (~$1,200)</span></div>
+        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Fujifilm 56 f/1.2 (~$1,000)</span></div>
+        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Fujifilm 50-140 f/2.8 (~$1,500)</span></div>
+        <div class="lens-row"><span class="role">Wide</span><span class="pick">Fujifilm 10-24 f/4 (~$1,000)</span></div>
+        <div class="lens-row"><span class="role">Budget 3rd party</span><span class="pick">Viltrox 56 f/1.7 (~$200)</span></div>
+        <p style="font-size:12px;color:var(--text-3);margin:12px 0 0">APS-C only. Stays compact. Excellent film simulations mean great JPEGs straight out of camera.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== DECISION GUIDE ====== -->
+  <section id="decision" style="margin: 0 0 64px">
+    <p class="kicker">DECISION GUIDE</p>
+    <h2>Which one is right for you?</h2>
+    <p style="color:var(--text-2);max-width:720px;line-height:1.6;margin:8px 0 8px">Answer the questions below honestly. The right camera for a 16-year-old who just discovered street photography is not the right camera for a 45-year-old wedding photographer.</p>
+
+    <div class="decision-grid">
+      <div class="decision-card">
+        <p class="q">Q1 · What kind of photography do you actually do?</p>
+        <h4>If "I don't know yet"</h4>
+        <p>You are at Level 1 of the curriculum. The right answer is the cheapest body that gets you the standard kit zoom and a 50mm f/1.8. <strong>Fujifilm X-T30 III or Sony α6100 (used).</strong> Do not spend more than $900.</p>
+        <span class="pick-rec">→ Tier 1 picks</span>
+      </div>
+      <div class="decision-card">
+        <p class="q">Q2 · Do you shoot more video than stills?</p>
+        <h4>If yes</h4>
+        <p>Skip APS-C entirely. The Sony α7 IV / α7C II give you the strongest hybrid video ecosystem. The Canon R5 II is the most powerful hybrid body in 2025 for video specifically. <strong>For pure video-first work, consider the Panasonic S5 II or Nikon Z6 III for the best video specs under $2,500.</strong></p>
+        <span class="pick-rec">→ Sony α7C II, Canon R5 II, Nikon Z6 III</span>
+      </div>
+      <div class="decision-card">
+        <p class="q">Q3 · Do you want to keep this system for 10+ years?</p>
+        <h4>Pick the mount, then the body</h4>
+        <p>You are not married to a single body, but the lenses you buy today should still work on tomorrow's flagship. <strong>Sony E-mount</strong> has the largest, most diverse lens selection including best third-party support. <strong>Canon RF</strong> is closed to third parties but has excellent native L glass. <strong>Nikon Z</strong> is the sweet spot for glass quality.</p>
+        <span class="pick-rec">→ Start with the system, not the body</span>
+      </div>
+      <div class="decision-card">
+        <p class="q">Q4 · Budget reality check</p>
+        <h4>Buy the body, then lenses, then maybe more body</h4>
+        <p>A $2,000 camera with a $300 lens takes worse photos than a $1,500 camera with an $800 lens. <strong>Allocate at least 50% of your budget to glass.</strong> A photographer with one great lens and a used body will always outperform a photographer with a flagship body and the kit zoom.</p>
+        <span class="pick-rec">→ Lenses outlast bodies by 3-5x</span>
+      </div>
+      <div class="decision-card">
+        <p class="q">Q5 · Are you already invested in a system?</p>
+        <h4>Stay in your mount</h4>
+        <p>If you have Canon EF, Nikon F, or Sony A-mount lenses, look at the adapter path. Sony E accepts most third-party lenses via cheap adapters. Nikon Z and Canon RF have first-party adapters that preserve full autofocus on many older lenses. <strong>Do not switch systems just because of one review.</strong></p>
+        <span class="pick-rec">→ Adapter + familiar glass &gt; new system + new glass</span>
+      </div>
+      <div class="decision-card">
+        <p class="q">Q6 · Is the reviewer's favorite camera the right one for you?</p>
+        <h4>Probably not</h4>
+        <p>Every review has a winner that fits the reviewer's hand, eye, and genre. <strong>Rent before you buy if you can.</strong> Lens Prototypes and MPB both rent cameras. If a body feels wrong in the hand after 30 minutes, it will feel wrong after 30 months.</p>
+        <span class="pick-rec">→ Rent first, then buy</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== WHAT TO AVOID ====== -->
+  <section id="avoid" style="margin: 0 0 32px">
+    <p class="kicker">WHAT TO AVOID</p>
+    <h2>Common mistakes when buying your first camera</h2>
+    <p style="color:var(--text-2);max-width:720px;line-height:1.6;margin:8px 0 0">Photography communities have seen every mistake. The list below is the short version of "what I wish someone had told me before I spent $3,000."</p>
+
+    <div class="avoid-list">
+      <div class="avoid-item">
+        <span class="x">✕</span>
+        <div>
+          <h4>Buying a flagship body to "grow into"</h4>
+          <p>You will not grow into a $6,000 body. You will use it for six months, never touch 90% of the features, and feel guilty every time you leave it in the bag. Buy a body you can use 100% of today. Bodies depreciate. Lenses appreciate.</p>
+        </div>
+      </div>
+      <div class="avoid-item">
+        <span class="x">✕</span>
+        <div>
+          <h4>Buying a "kit" without a kit lens plan</h4>
+          <p>The kit zoom is fine for 30 days, then it sits in the drawer. Plan from day one to add one fast prime. The 50mm f/1.8 (or its equivalent) is the highest ROI purchase in photography.</p>
+        </div>
+      </div>
+      <div class="avoid-item">
+        <span class="x">✕</span>
+        <div>
+          <h4>Switching systems to follow a YouTube review</h4>
+          <p>Selling two lenses to afford one new body is almost always a bad trade. The lenses you already own are worth more to you than the new body's marginal improvements. Watch the review, then keep what you have.</p>
+        </div>
+      </div>
+      <div class="avoid-item">
+        <span class="x">✕</span>
+        <div>
+          <h4>Spending on accessories before lenses</h4>
+          <p>Tripods, filters, bags, lens hoods, extra batteries — these are real costs, but they are the last 5% of the kit. The lens is the first 80% of the image. Buy glass first.</p>
+        </div>
+      </div>
+      <div class="avoid-item">
+        <span class="x">✕</span>
+        <div>
+          <h4>Trusting a "best of 2025" list as a buying guide</h4>
+          <p>These are written by reviewers with different shooting styles, different hands, and different needs. Use them as a shortlist, then verify with reviews from photographers who shoot what you shoot.</p>
+        </div>
+      </div>
+      <div class="avoid-item">
+        <span class="x">✕</span>
+        <div>
+          <h4>Buying more megapixels than you need</h4>
+          <p>24MP is enough for an A2 print at 300 DPI. 33MP is enough for A1. 45MP is enough for poster-sized. More megapixels mean larger files, slower workflows, and more storage — without making most photographs visibly better.</p>
+        </div>
+      </div>
+      <div class="avoid-item">
+        <span class="x">✕</span>
+        <div>
+          <h4>Skipping the "boring" kit lens for a fast prime</h4>
+          <p>Counter-intuitive but true: you need the kit zoom to learn focal length. A 50mm prime teaches you depth of field, not composition. Shoot 1,000 frames with the zoom, then choose your specialty prime.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+<nav class="bottom-nav" aria-label="Quick navigation">
+  <a href="index.html"><span class="bn-icon">◉</span><span>Home</span></a>
+  <a href="curriculum.html"><span class="bn-icon">▤</span><span>Learn</span></a>
+  <a href="resources.html"><span class="bn-icon">▦</span><span>Resources</span></a>
+  <a href="assessment.html"><span class="bn-icon">◎</span><span>Test</span></a>
+</nav>
+<script src="assets/script.js"></script>
+<script src="assets/auth.js?v=5"></script>
+</body>
+</html>
