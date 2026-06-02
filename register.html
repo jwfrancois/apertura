@@ -104,12 +104,23 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
     }
     location.href = 'curriculum.html';
   } catch (ex) {
-    err.textContent = 'Unexpected error: ' + ex.message;
+    err.textContent = 'Error: ' + ex.message + ' — If this is your first visit, try a hard refresh (Cmd/Ctrl+Shift+R) to clear the old service worker cache.';
     err.hidden = false;
     btn.disabled = false;
     btn.textContent = 'Create account';
+    console.error('[register] failed', ex);
   }
 });
+// Defensive: surface stale-cache issue with a clear banner
+if (typeof window.UserStore === 'undefined' || typeof window.UserStore.register !== 'function') {
+  const card = document.querySelector('.auth-card');
+  if (card) {
+    const banner = document.createElement('div');
+    banner.style.cssText = 'background:rgba(255,59,48,0.1);border:1px solid #FF3B30;padding:14px 16px;border-radius:8px;margin-bottom:20px;font-size:13px;color:#FF3B30;font-family:"JetBrains Mono",monospace;line-height:1.5;';
+    banner.innerHTML = '⚠️ Stale cache detected. The auth system failed to load.<br><br><strong>Hard-refresh this page</strong> (Cmd/Ctrl + Shift + R) to clear the old service worker cache, then try again.';
+    card.prepend(banner);
+  }
+}
 (async () => {
   const u = await UserStore.currentUser();
   const nav = document.getElementById('auth-nav');
