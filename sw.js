@@ -1,6 +1,6 @@
 // Apertura Service Worker — offline-first cache
 // v3: include auth.js with cache-busting query + delete all old caches aggressively
-const CACHE = 'apertura-v11';
+const CACHE = 'apertura-v13';
 const PRECACHE = [
   '/',
   '/index.html',
@@ -24,6 +24,10 @@ const PRECACHE = [
   '/assets/resources.js',
   '/assets/resources-app.js',
   '/assets/assessment.js',
+  '/icons/icon-192.png',
+  '/icons/icon-192-maskable.png',
+  '/icons/icon-512.png',
+  '/icons/icon-512-maskable.png',
 ];
 
 self.addEventListener('install', (e) => {

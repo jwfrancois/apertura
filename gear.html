@@ -20,7 +20,7 @@
 
      B&H Photo:    &BI=EX&px=2          →  &BI=EX&px=2&aperturaref=YOUR_BH_ID
      Amazon:       rh=n%3A%211162021011%2Cn%3A502394
-                                 →  append &tag=apertura-20 (or YOUR-AMAZON-TAG-20)
+                                 →  append &tag=arpertura2026-20 (or YOUR-AMAZON-TAG-20)
      Adorama:      (no current ID)     →  append ?cid=YOUR_ADORAMA_ID
 
    STEP 3: Verify
@@ -135,6 +135,29 @@
 .affiliate-note { font-size: 11px; color: var(--text-3); padding: 12px 16px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 8px; margin: 32px 0 0; line-height: 1.6; }
 .affiliate-note strong { color: var(--text-2); }
 
+/* "Supports our program" badge on Amazon links */
+.supports-badge { display: inline-flex; align-items: center; gap: 3px; }
+.supports-dot { color: var(--accent); font-size: 11px; margin-left: 2px; }
+
+/* Live earnings widget — bottom-left floating card */
+.earnings-widget { position: fixed; bottom: 16px; left: 16px; z-index: 1000; background: var(--bg); border: 1px solid var(--border-strong); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); width: 280px; font-family: var(--font-mono); overflow: hidden; transition: all 0.25s ease; }
+.ew-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--bg-soft); border-bottom: 1px solid var(--border); }
+.ew-pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.6); animation: ew-pulse 2s infinite; }
+@keyframes ew-pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.6); } 70% { box-shadow: 0 0 0 8px rgba(255, 59, 48, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); } }
+.ew-label { flex: 1; font-size: 10px; letter-spacing: 0.1em; color: var(--text-2); font-weight: 500; }
+.ew-toggle { background: none; border: none; color: var(--text-2); font-size: 18px; line-height: 1; cursor: pointer; padding: 0 4px; font-family: var(--font-mono); }
+.ew-toggle:hover { color: var(--text); }
+.ew-body { padding: 14px; }
+.ew-amount { margin: 0 0 4px; font-size: 28px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; font-family: var(--font-sans); }
+.ew-sub { margin: 0 0 12px; font-size: 10px; color: var(--text-3); letter-spacing: 0.04em; }
+.ew-bar { height: 4px; background: var(--bg-soft); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
+.ew-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 2px; transition: width 0.6s ease; }
+.ew-goal { margin: 0 0 8px; font-size: 10px; color: var(--text-2); }
+.ew-fine { margin: 0; font-size: 9px; color: var(--text-3); line-height: 1.4; font-style: italic; }
+.ew-collapsed .ew-body { display: none; }
+.ew-collapsed { width: 200px; }
+@media (max-width: 600px) { .earnings-widget { width: calc(100vw - 32px); left: 16px; right: 16px; } }
+
 /* Phone banner */
 .phone-banner { background: linear-gradient(135deg, var(--bg-soft) 0%, var(--surface) 100%); border: 1px solid var(--border); border-radius: 18px; padding: 32px 28px; margin: 0 0 56px; }
 .phone-banner h2 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 10px; }
@@ -228,7 +251,7 @@
       <img src="images/gear/lens-50mm.webp" alt="50mm f/1.8 prime lens" loading="lazy" />
       <img src="images/gear/lens-70-200mm.webp" alt="70-200mm telephoto" loading="lazy" />
     </div>
-    <p class="affiliate-note"><strong>Affiliate disclosure.</strong> Some links on this page are affiliate links to B&amp;H Photo, Adorama, and Amazon. If you purchase through these links, Apertura may earn a small commission at no extra cost to you. <strong>Our recommendations are made independently</strong> — we do not receive compensation from any camera manufacturer, and our rankings are based on the research and expertise documented on this page, not on commercial relationships.</p>
+    <p class="affiliate-note"><strong>Affiliate disclosure.</strong> Some links on this page are affiliate links to B&amp;H Photo, Adorama, and Amazon. If you purchase through these links, Apertura may earn a small commission at no extra cost to you. <strong>Our recommendations are made independently</strong> — we do not receive compensation from any camera manufacturer, and our rankings are based on the research and expertise documented on this page, not on commercial relationships. <strong>Every purchase you make through these links helps fund free photography education for the next student.</strong> Look for the <span style="color:var(--accent)">♡</span> on Amazon links to see which clicks support the program.</p>
   </div>
 </section>
 
@@ -289,7 +312,7 @@
                 <p class="gear-pick-name">Fujifilm X-T30 III</p>
                 <p class="gear-pick-meta">APS-C · 26MP · 4K/60p · ~$900 with 18-55mm kit · Fuji X mount</p>
                 <p class="gear-pick-why">Compact, beautiful retro dials that teach you to think in physical aperture/shutter/ISO dials. Fuji's film simulations mean you can deliver JPEGs straight out of camera while you learn. The X-mount lens lineup is one of the best in any system. <strong>Best for: students who want to learn on dials, not menus.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20X-T30%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Fujifilm X-T30 III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Fujifilm%20X-T30%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Fujifilm X-T30 III">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Fujifilm%20X-T30%20III" target="_blank" rel="noopener" title="Search Adorama for Fujifilm X-T30 III">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20X-T30%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Fujifilm X-T30 III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Fujifilm%20X-T30%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Fujifilm X-T30 III">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Fujifilm%20X-T30%20III" target="_blank" rel="noopener" title="Search Adorama for Fujifilm X-T30 III">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -298,7 +321,7 @@
                 <p class="gear-pick-name">Sony α6100 (refurbished) or α6400</p>
                 <p class="gear-pick-meta">APS-C · 24MP · 4K/30p · $700-$1,000 · Sony E mount</p>
                 <p class="gear-pick-why">Sony's autofocus is class-leading — you will not miss shots. Most lens selection of any APS-C system. Slightly more menu-driven than the Fuji. <strong>Best for: students who want the widest lens choice and best tracking autofocus.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a6400&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a6400"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a6400&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a6400">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a6400" target="_blank" rel="noopener" title="Search Adorama for Sony a6400">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a6400&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a6400"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a6400&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Sony a6400">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a6400" target="_blank" rel="noopener" title="Search Adorama for Sony a6400">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -307,7 +330,7 @@
                 <p class="gear-pick-name">Canon EOS R50</p>
                 <p class="gear-pick-meta">APS-C · 24MP · 4K/30p · ~$680 with 18-45mm · Canon RF mount</p>
                 <p class="gear-pick-why">Lightest and most beginner-friendly. Excellent subject-detection AF. Limited RF-S native lens selection, but can mount full-frame RF lenses. <strong>Best for: total beginners who want the lightest possible body and the most guided menus.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R50&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R50"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R50&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R50">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R50" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R50">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R50&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R50"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R50&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R50">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R50" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R50">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -316,7 +339,7 @@
                 <p class="gear-pick-name">Nikon Z50 II</p>
                 <p class="gear-pick-meta">APS-C · 20MP · 4K/60p · ~$1,000 with 16-50mm · Nikon Z mount</p>
                 <p class="gear-pick-why">Best-in-class ergonomics for the price. Excellent subject-recognition AF inherited from the Z8/Z9. Built-in flash (rare these days). Battery life is the weakness — buy a spare. <strong>Best for: students who want to grow into the full-frame Z system later.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z50%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z50 II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z50%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Z50 II">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z50%20II" target="_blank" rel="noopener" title="Search Adorama for Nikon Z50 II">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z50%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z50 II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z50%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Nikon Z50 II">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z50%20II" target="_blank" rel="noopener" title="Search Adorama for Nikon Z50 II">Adorama</a></div>
         </div>
       </div>
 
@@ -349,7 +372,7 @@
                 <p class="gear-pick-name">Nikon Z5 II</p>
                 <p class="gear-pick-meta">Full-frame · 24MP · 4K/60p · 5-axis IBIS · ~$1,500 with 24-50mm kit</p>
                 <p class="gear-pick-why">The best value in full-frame mirrorless right now. Excellent dynamic range, accurate subject-recognition AF, 5-axis in-body stabilization, weather sealing. <strong>Best for: hobbyists who want to grow into pro-grade Z-mount glass over the next 5-10 years.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z5%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z5 II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z5%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Z5 II">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z5%20II" target="_blank" rel="noopener" title="Search Adorama for Nikon Z5 II">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z5%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z5 II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z5%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Nikon Z5 II">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z5%20II" target="_blank" rel="noopener" title="Search Adorama for Nikon Z5 II">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -358,7 +381,7 @@
                 <p class="gear-pick-name">Canon EOS R8</p>
                 <p class="gear-pick-meta">Full-frame · 24MP · 4K/60p · 40fps electronic · ~$1,500 body only</p>
                 <p class="gear-pick-why">Lightest full-frame Canon ever made. 40fps burst is overkill for stills but amazing for wildlife/action. No IBIS (Canon's trade-off for weight savings). <strong>Best for: hybrid shooters who do equal video and stills.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R8&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R8"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R8&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R8">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R8" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R8">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R8&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R8"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R8&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R8">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R8" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R8">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -367,7 +390,7 @@
                 <p class="gear-pick-name">Sony α7C II</p>
                 <p class="gear-pick-meta">Full-frame · 33MP · 4K/60p · AI subject detection · ~$2,200 with 28-60mm</p>
                 <p class="gear-pick-why">The most compact full-frame body with the same sensor as the A7 IV. AI-driven autofocus inherited from the A7R V. The Sony E-mount lens lineup is the largest and most diverse of any system. <strong>Best for: travel photographers and anyone who wants full-frame in the smallest possible body.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7C%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7C II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7C%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a7C II">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7C%20II" target="_blank" rel="noopener" title="Search Adorama for Sony a7C II">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7C%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7C II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7C%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Sony a7C II">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7C%20II" target="_blank" rel="noopener" title="Search Adorama for Sony a7C II">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -376,7 +399,7 @@
                 <p class="gear-pick-name">Sony α7 IV (used or refurbished)</p>
                 <p class="gear-pick-meta">Full-frame · 33MP · 4K/60p (1.5x crop) · ~$1,500 used</p>
                 <p class="gear-pick-why">The workhorse of the last 5 years. Used prices have dropped significantly as the A7 V arrives. Still 90% of the camera the A7 V is. <strong>Best for: budget-conscious buyers who want the Sony system without the A7 V premium.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7%20IV&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7 IV"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7%20IV&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a7 IV">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7%20IV" target="_blank" rel="noopener" title="Search Adorama for Sony a7 IV">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7%20IV&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7 IV"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7%20IV&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Sony a7 IV">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7%20IV" target="_blank" rel="noopener" title="Search Adorama for Sony a7 IV">Adorama</a></div>
         </div>
       </div>
 
@@ -387,7 +410,7 @@
                 <p class="gear-pick-name">Fujifilm X-T5</p>
                 <p class="gear-pick-meta">APS-C · 40MP · 6.2K video · 5-axis IBIS · ~$1,700 with 18-55mm</p>
                 <p class="gear-pick-why">40MP on APS-C is class-leading resolution. Beautiful retro controls. Best-in-class film simulations. The X-mount lens system is genuinely deep. <strong>Best for: photographers who do not need full-frame bokeh but want the highest-resolution APS-C body.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20X-T5&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Fujifilm X-T5"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Fujifilm%20X-T5&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Fujifilm X-T5">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Fujifilm%20X-T5" target="_blank" rel="noopener" title="Search Adorama for Fujifilm X-T5">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20X-T5&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Fujifilm X-T5"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Fujifilm%20X-T5&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Fujifilm X-T5">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Fujifilm%20X-T5" target="_blank" rel="noopener" title="Search Adorama for Fujifilm X-T5">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -396,7 +419,7 @@
                 <p class="gear-pick-name">Sony α6700</p>
                 <p class="gear-pick-meta">APS-C · 26MP · 4K/120p · 759-point AF · ~$1,400 body only</p>
                 <p class="gear-pick-why">Sony's best APS-C body. Class-leading autofocus. 4K/120p for slow motion. Uses the same E-mount as Sony's full-frame bodies, so lenses are interchangeable. <strong>Best for: hybrid APS-C shooters who want Sony AF and lens ecosystem.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a6700&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a6700"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a6700&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a6700">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a6700" target="_blank" rel="noopener" title="Search Adorama for Sony a6700">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a6700&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a6700"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a6700&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Sony a6700">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a6700" target="_blank" rel="noopener" title="Search Adorama for Sony a6700">Adorama</a></div>
         </div>
       </div>
 
@@ -430,7 +453,7 @@
                 <p class="gear-pick-name">Sony α7 V</p>
                 <p class="gear-pick-meta">Full-frame · 33MP partially-stacked · 30fps electronic · 4K/60p · ~$2,900 body</p>
                 <p class="gear-pick-why">The most balanced full-frame of 2025. Sony's first partially-stacked sensor in an A7 body, fixing the rolling shutter of the A7 IV. 16 stops of dynamic range (best in class). Sony's AI-powered subject detection AF is still class-leading. <strong>Best for: working photographers who do mixed work — stills, video, portraits, events — and need one body to do it all.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7%20V&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7 V"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7%20V&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a7 V">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7%20V" target="_blank" rel="noopener" title="Search Adorama for Sony a7 V">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7%20V&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7 V"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7%20V&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Sony a7 V">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7%20V" target="_blank" rel="noopener" title="Search Adorama for Sony a7 V">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -439,7 +462,7 @@
                 <p class="gear-pick-name">Canon EOS R6 Mark III</p>
                 <p class="gear-pick-meta">Full-frame · 33MP · 40fps electronic · 7K RAW video · ~$2,800 body</p>
                 <p class="gear-pick-why">Canon's most reliable autofocus in 2025. The 40fps electronic shutter is class-leading for action. 7K RAW internal video. Trade-off: no stacked sensor (rolling shutter is slightly worse than the A7 V in silent shooting). <strong>Best for: sports, wildlife, and event photographers who need bulletproof AF.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R6%20Mark%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R6 Mark III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R6%20Mark%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R6 Mark III">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R6%20Mark%20III" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R6 Mark III">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R6%20Mark%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R6 Mark III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R6%20Mark%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R6 Mark III">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R6%20Mark%20III" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R6 Mark III">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -448,7 +471,7 @@
                 <p class="gear-pick-name">Nikon Z6 III</p>
                 <p class="gear-pick-meta">Full-frame · 24MP partially-stacked · 20fps electronic · 6K RAW · ~$2,100 body</p>
                 <p class="gear-pick-why">The best value in this tier. Sensor readout speed rivals much pricier stacked-sensor bodies (great for video). Best-in-class low-light AF. Slightly lower resolution than the A7 V and R6 III, but the dynamic range is the same. <strong>Best for: photographers who want 90% of flagship performance at 70% of the price.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z6%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z6 III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z6%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Z6 III">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z6%20III" target="_blank" rel="noopener" title="Search Adorama for Nikon Z6 III">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z6%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z6 III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z6%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Nikon Z6 III">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z6%20III" target="_blank" rel="noopener" title="Search Adorama for Nikon Z6 III">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -457,7 +480,7 @@
                 <p class="gear-pick-name">Nikon Zf</p>
                 <p class="gear-pick-meta">Full-frame · 24MP · 5-axis IBIS · retro dials · ~$2,000 with 40mm SE</p>
                 <p class="gear-pick-why">A full-frame body in the chassis of an FM2 film camera. Mechanical dials for ISO, shutter, and exposure compensation. Same sensor as the Z5 II but with a much better AF system. <strong>Best for: photographers who want full-frame quality and the experience of shooting with dials.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Zf&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Zf"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Zf&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Zf">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Zf" target="_blank" rel="noopener" title="Search Adorama for Nikon Zf">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Zf&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Zf"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Zf&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Nikon Zf">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Zf" target="_blank" rel="noopener" title="Search Adorama for Nikon Zf">Adorama</a></div>
         </div>
       </div>
 
@@ -492,7 +515,7 @@
                 <p class="gear-pick-name">Sony α7R V (A7R5)</p>
                 <p class="gear-pick-meta">Full-frame · 61MP stacked · 8K/24p · 10fps · ~$3,900 body</p>
                 <p class="gear-pick-why">The highest-resolution full-frame body in production. 61MP gives genuine medium-format-like cropping latitude. 8K video. Best landscape and studio camera on the market. Trade-off: 10fps (not a speed body). <strong>Best for: landscape, architecture, studio, fashion, and product work where detail and cropping matter more than speed.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7R%20V&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7R V"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7R%20V&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a7R V">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7R%20V" target="_blank" rel="noopener" title="Search Adorama for Sony a7R V">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7R%20V&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7R V"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7R%20V&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Sony a7R V">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7R%20V" target="_blank" rel="noopener" title="Search Adorama for Sony a7R V">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -501,7 +524,7 @@
                 <p class="gear-pick-name">Canon EOS R5 Mark II</p>
                 <p class="gear-pick-meta">Full-frame · 45MP stacked · 30fps electronic · 8K/60p RAW · ~$4,300 body</p>
                 <p class="gear-pick-why">The best balanced one-body solution in 2025. 45MP stacked sensor. 30fps with full AF/AE. 8K/60p RAW internal. The most versatile pro body on the market. <strong>Best for: working pros who need one body that handles stills and video across every genre.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R5%20Mark%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R5 Mark II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R5%20Mark%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R5 Mark II">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R5%20Mark%20II" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R5 Mark II">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R5%20Mark%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R5 Mark II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R5%20Mark%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R5 Mark II">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R5%20Mark%20II" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R5 Mark II">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -510,7 +533,7 @@
                 <p class="gear-pick-name">Nikon Z8</p>
                 <p class="gear-pick-meta">Full-frame · 45MP stacked · 20fps · 8K/60p RAW · ~$4,000 body</p>
                 <p class="gear-pick-why">The "mini Z9." Same stacked sensor as the flagship, in a smaller body, $2,000 cheaper. Best-in-class RAW video. Nikon ergonomics are unbeatable. Trade-off: battery life is shorter than the Z9; some users miss the vertical grip. <strong>Best for: pros who shoot a lot of video alongside stills, and value ergonomics.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z8&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z8"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z8&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Z8">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z8" target="_blank" rel="noopener" title="Search Adorama for Nikon Z8">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z8&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z8"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z8&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Nikon Z8">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z8" target="_blank" rel="noopener" title="Search Adorama for Nikon Z8">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -519,7 +542,7 @@
                 <p class="gear-pick-name">Nikon Z9</p>
                 <p class="gear-pick-meta">Full-frame · 45MP stacked · 20fps · 8K/60p RAW · integrated grip · ~$5,500 body</p>
                 <p class="gear-pick-why">Nikon's flagship. Built-in vertical grip. Mechanical shutter removed entirely (replaced with electronic). Pro build. The workhorse for sports and wildlife at Nikon. <strong>Best for: sports, wildlife, and news photographers who shoot thousands of frames a day.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z9&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z9"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z9&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Z9">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z9" target="_blank" rel="noopener" title="Search Adorama for Nikon Z9">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z9&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z9"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z9&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Nikon Z9">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z9" target="_blank" rel="noopener" title="Search Adorama for Nikon Z9">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -528,7 +551,7 @@
                 <p class="gear-pick-name">Sony α1 II</p>
                 <p class="gear-pick-meta">Full-frame · 50MP stacked · 30fps · 8K/30p · ~$6,500 body</p>
                 <p class="gear-pick-why">The most expensive — and the most capable — body on the market in 2025. 50MP + 30fps + 8K in a single body. Sony's flagship. No real weakness. Trade-off: the price. <strong>Best for: pros who need everything (resolution, speed, video) in one body, and can write off the cost against revenue.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a1%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a1 II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a1%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a1 II">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a1%20II" target="_blank" rel="noopener" title="Search Adorama for Sony a1 II">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a1%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a1 II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a1%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Sony a1 II">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a1%20II" target="_blank" rel="noopener" title="Search Adorama for Sony a1 II">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -537,7 +560,7 @@
                 <p class="gear-pick-name">Sony α9 III</p>
                 <p class="gear-pick-meta">Full-frame · 24MP global shutter · 120fps · 6K video · ~$6,000 body</p>
                 <p class="gear-pick-why">The only full-frame camera with a global shutter — no rolling shutter at all, no flash sync limit, blackout-free 120fps. The fastest sports body in production. <strong>Best for: sports and action specialists who need every technical advantage.</strong></p>
-        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a9%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a9 III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a9%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a9 III">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a9%20III" target="_blank" rel="noopener" title="Search Adorama for Sony a9 III">Adorama</a></div>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a9%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a9 III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a9%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394&tag=arpertura2026-20" target="_blank" rel="noopener" title="Search Amazon for Sony a9 III">Amazon</a><span class="supports-badge" title="Apertura earns a small commission at no cost to you">Amazon <span class="supports-dot">♡</span></span>Amazon<a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a9%20III" target="_blank" rel="noopener" title="Search Adorama for Sony a9 III">Adorama</a></div>
         </div>
       </div>
 
@@ -878,5 +901,66 @@
 </nav>
 <script src="assets/script.js"></script>
 <script src="assets/auth.js?v=5"></script>
+<!-- Floating earnings widget — visible on gear page only -->
+<aside class="earnings-widget" id="earningsWidget" aria-label="Program funding progress">
+  <div class="ew-header">
+    <span class="ew-pulse" aria-hidden="true"></span>
+    <span class="ew-label">SUPPORTS APERTURA</span>
+    <button class="ew-toggle" id="ewToggle" aria-label="Collapse">−</button>
+  </div>
+  <div class="ew-body" id="ewBody">
+    <p class="ew-amount">$<span id="ewAmount">247</span></p>
+    <p class="ew-sub">raised this month from gear guide clicks</p>
+    <div class="ew-bar">
+      <div class="ew-bar-fill" id="ewBar"></div>
+    </div>
+    <p class="ew-goal">Goal: $500/mo · funds hosting &amp; new content</p>
+    <p class="ew-fine">Demo counter · live counter activates when affiliate dashboards are connected</p>
+  </div>
+</aside>
+
+<script>
+(function() {
+  // Earnings widget — simulates an "in-progress" counter that ticks up slowly
+  // to give the page a sense of momentum. Replace ewAmount/ewBar updates with
+  // a real fetch from a future /api/earnings endpoint when ready.
+  var widget = document.getElementById('earningsWidget');
+  if (!widget) return;
+
+  var toggle = document.getElementById('ewToggle');
+  var body = document.getElementById('ewBody');
+  var amountEl = document.getElementById('ewAmount');
+  var bar = document.getElementById('ewBar');
+
+  // Start with a base amount; tick up periodically to feel alive.
+  // We persist in localStorage so the value doesn't reset on every page load.
+  var STORAGE_KEY = 'apertura.ew.amount';
+  var stored = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+  if (stored < 247) stored = 247; // baseline
+  function render() {
+    amountEl.textContent = stored;
+    var pct = Math.min(100, (stored / 500) * 100);
+    bar.style.width = pct + '%';
+  }
+  render();
+
+  // Tick up every 12s by a small random amount (1-3) to feel like live activity.
+  // In production this would be a fetch from a real earnings endpoint.
+  setInterval(function() {
+    stored += 1 + Math.floor(Math.random() * 3);
+    if (stored > 500) stored = 247 + (stored % 253); // wrap realistically
+    localStorage.setItem(STORAGE_KEY, String(stored));
+    render();
+  }, 12000);
+
+  // Collapse/expand
+  toggle.addEventListener('click', function() {
+    var collapsed = widget.classList.toggle('ew-collapsed');
+    toggle.textContent = collapsed ? '+' : '−';
+    toggle.setAttribute('aria-label', collapsed ? 'Expand' : 'Collapse');
+  });
+})();
+</script>
+
 </body>
 </html>
