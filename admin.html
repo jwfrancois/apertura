@@ -6,7 +6,10 @@
 <title>Admin — Apertura</title>
 <meta name="description" content="Admin dashboard for Apertura learning platform." />
 <meta name="theme-color" content="#0a0a0a" />
-<link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.json" />
 <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='16' y='22' text-anchor='middle' font-family='Inter,sans-serif' font-size='18' font-weight='800' fill='%23FF3B30'>A</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -96,6 +99,67 @@
     <h2>Most-completed by the cohort</h2>
     <ul class="admin-popular" id="admin-popular"></ul>
   </section>
+
+  <section class="admin-section">
+    <p class="kicker">PROGRAM FUNDING</p>
+    <h2>Affiliate earnings</h2>
+    <p class="admin-sub">Update the public gear-page earnings widget from your Amazon Associates dashboard. The figure is updated weekly and shown to all visitors as a small live counter.</p>
+
+    <form id="earnings-form" class="earnings-form">
+      <div class="ef-row">
+        <label for="ef-month">Month</label>
+        <input type="month" id="ef-month" name="month" required />
+      </div>
+      <div class="ef-row">
+        <label for="ef-amount">Commission earned (USD)</label>
+        <input type="number" id="ef-amount" name="amount" min="0" step="0.01" required placeholder="247.00" />
+      </div>
+      <div class="ef-row">
+        <button type="submit" class="btn btn-primary">Save &amp; publish to gear page</button>
+        <span class="ef-status" id="ef-status"></span>
+      </div>
+    </form>
+
+    <div class="ef-current">
+      <h3>Current month</h3>
+      <p id="ef-current-display">Loading…</p>
+    </div>
+
+    <details class="ef-history">
+      <summary>Yearly history</summary>
+      <div id="ef-history-display">Loading…</div>
+    </details>
+  </section>
+
+  <section class="admin-section">
+    <p class="kicker">ACCESS CONTROL</p>
+    <h2>Administrators</h2>
+    <p class="admin-sub">Add co-admins who can manage students, edit earnings, and configure the platform. The demo admin and your account are listed by default; add more as the program grows.</p>
+
+    <form id="newadmin-form" class="earnings-form">
+      <div class="ef-row">
+        <label for="na-name">Full name</label>
+        <input type="text" id="na-name" name="name" required placeholder="Jane Doe" />
+      </div>
+      <div class="ef-row">
+        <label for="na-email">Email (also the username)</label>
+        <input type="email" id="na-email" name="email" required placeholder="jane@example.com" />
+      </div>
+      <div class="ef-row">
+        <label for="na-password">Initial password (min 6 chars)</label>
+        <input type="text" id="na-password" name="password" minlength="6" required placeholder="At least 6 characters" />
+      </div>
+      <div class="ef-row">
+        <button type="submit" class="btn btn-primary">Create admin</button>
+        <span class="ef-status" id="na-status"></span>
+      </div>
+    </form>
+
+    <div class="ef-current">
+      <h3>Current administrators</h3>
+      <ul class="admin-list" id="admin-list"></ul>
+    </div>
+  </section>
 </main>
 <nav class="bottom-nav" aria-label="Quick navigation">
   <a href="index.html"><span class="bn-icon">◉</span><span>Home</span></a>
@@ -103,7 +167,7 @@
   <a href="resources.html"><span class="bn-icon">▦</span><span>Resources</span></a>
   <a href="assessment.html"><span class="bn-icon">◎</span><span>Test</span></a>
 </nav>
-<script src="assets/auth.js?v=5"></script>
+<script src="assets/auth.js?v=7"></script>
   <script src="assets/lessons.js"></script>
   <script src="assets/script.js"></script>
 <script>
@@ -222,7 +286,124 @@ async function render() {
     document.getElementById('popular-section').hidden = false;
   }
 }
+
+// -------- Earnings management (Amazon Associates) --------
+async function loadEarningsAdmin() {
+  const rec = await UserStore.getEarnings();
+  const cur = document.getElementById('ef-current-display');
+  if (cur) {
+    const date = rec.updatedAt ? new Date(rec.updatedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'never';
+    cur.innerHTML = `<strong>$${rec.amount.toFixed(2)}</strong> in <strong>${rec.month}</strong> (last updated ${date})`;
+  }
+  // Pre-fill the form
+  const monthInput = document.getElementById('ef-month');
+  const amountInput = document.getElementById('ef-amount');
+  if (monthInput) monthInput.value = rec.month;
+  if (amountInput) amountInput.value = rec.amount || '';
+
+  // History
+  const hist = await UserStore.getEarningsHistory();
+  const histEl = document.getElementById('ef-history-display');
+  if (histEl) {
+    if (!hist.length) {
+      histEl.innerHTML = '<p class="ef-empty">No history yet — add your first month above.</p>';
+    } else {
+      histEl.innerHTML = hist.map((h) => {
+        const months = Object.entries(h.months).sort((a, b) => b[0].localeCompare(a[0]));
+        const total = months.reduce((s, [, v]) => s + v, 0);
+        return `<div class="ef-year-block">
+          <h4>${h.year} — $${total.toFixed(2)} total</h4>
+          <ul>${months.map(([m, v]) => {
+            const label = new Date(h.year, parseInt(m, 10) - 1, 1).toLocaleDateString('en-US', { month: 'short' });
+            return `<li>${label}: $${v.toFixed(2)}</li>`;
+          }).join('')}</ul>
+        </div>`;
+      }).join('');
+    }
+  }
+}
+
+document.getElementById('earnings-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const status = document.getElementById('ef-status');
+  const month = document.getElementById('ef-month').value;
+  const amount = parseFloat(document.getElementById('ef-amount').value);
+  if (!month || isNaN(amount)) {
+    status.textContent = 'Please fill in both fields.';
+    status.className = 'ef-status ef-error';
+    return;
+  }
+  status.textContent = 'Saving…';
+  status.className = 'ef-status';
+  try {
+    await UserStore.setEarnings({ month, amount });
+    status.textContent = '✓ Saved & published to gear page';
+    status.className = 'ef-status ef-success';
+    await loadEarningsAdmin();
+  } catch (err) {
+    status.textContent = 'Save failed: ' + (err.message || err);
+    status.className = 'ef-status ef-error';
+  }
+});
+
 render();
+loadEarningsAdmin();
+loadAdminsAdmin();
+
+// -------- Admin management (create / list / delete) --------
+async function loadAdminsAdmin() {
+  const list = document.getElementById('admin-list');
+  if (!list) return;
+  const admins = await UserStore.listAdmins();
+  const me = await UserStore.currentUser();
+  list.innerHTML = admins.map((a) => {
+    const isMe = me && me.id === 'u_' + a.id;
+    const date = a.createdAt ? new Date(a.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+    return `<li class="admin-list-item">
+      <div class="ali-info">
+        <strong>${a.name}</strong>${isMe ? ' <span class="ali-self">you</span>' : ''}
+        <span class="ali-email">${a.email}</span>
+        <span class="ali-date">Added ${date}</span>
+      </div>
+      ${admins.length > 1 && !isMe ? `<button class="btn btn-danger btn-sm" data-del-admin="${a.id}">Remove</button>` : ''}
+    </li>`;
+  }).join('');
+  // Wire delete buttons
+  list.querySelectorAll('[data-del-admin]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-del-admin');
+      const target = admins.find((a) => a.id === id);
+      if (!target) return;
+      if (!confirm(`Remove admin "${target.name}" (${target.email})? They will lose access immediately.`)) return;
+      const res = await UserStore.deleteAdmin(id);
+      if (res.ok) {
+        await loadAdminsAdmin();
+      } else {
+        alert('Could not remove: ' + (res.error || 'unknown error'));
+      }
+    });
+  });
+}
+
+document.getElementById('newadmin-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const status = document.getElementById('na-status');
+  const name = document.getElementById('na-name').value.trim();
+  const email = document.getElementById('na-email').value.trim();
+  const password = document.getElementById('na-password').value;
+  status.textContent = 'Creating…';
+  status.className = 'ef-status';
+  const res = await UserStore.createAdmin({ name, email, password });
+  if (res.ok) {
+    status.textContent = `✓ Created admin for ${res.email}`;
+    status.className = 'ef-status ef-success';
+    document.getElementById('newadmin-form').reset();
+    await loadAdminsAdmin();
+  } else {
+    status.textContent = '✗ ' + (res.error || 'Failed to create admin');
+    status.className = 'ef-status ef-error';
+  }
+});
 </script>
 </body>
 </html>

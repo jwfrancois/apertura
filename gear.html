@@ -42,7 +42,10 @@
 <meta name="theme-color" content="#000000" />
 <title>Gear Guide — Apertura</title>
 <meta name="description" content="Independent camera and lens recommendations for every budget — from a smartphone to a $6000 flagship body. Curated by skill level, with real specs and what to actually buy." />
-<link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.json" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23ff3b30'/%3E%3Ctext x='50' y='72' font-family='serif' font-size='80' font-weight='bold' text-anchor='middle' fill='white'%3EA%3Ctext%3E%3C/svg%3E" />
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23ff3b30'/%3E%3Ctext x='50' y='72' font-family='serif' font-size='80' font-weight='bold' text-anchor='middle' fill='white'%3EA%3C/text%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -900,7 +903,7 @@
   <a href="assessment.html"><span class="bn-icon">◎</span><span>Test</span></a>
 </nav>
 <script src="assets/script.js"></script>
-<script src="assets/auth.js?v=5"></script>
+<script src="assets/auth.js?v=7"></script>
 <!-- Floating earnings widget — visible on gear page only -->
 <aside class="earnings-widget" id="earningsWidget" aria-label="Program funding progress">
   <div class="ew-header">
@@ -909,21 +912,21 @@
     <button class="ew-toggle" id="ewToggle" aria-label="Collapse">−</button>
   </div>
   <div class="ew-body" id="ewBody">
-    <p class="ew-amount">$<span id="ewAmount">247</span></p>
+    <p class="ew-amount">$<span id="ewAmount">0</span></p>
     <p class="ew-sub">raised this month from gear guide clicks</p>
     <div class="ew-bar">
       <div class="ew-bar-fill" id="ewBar"></div>
     </div>
     <p class="ew-goal">Goal: $500/mo · funds hosting &amp; new content</p>
-    <p class="ew-fine">Demo counter · live counter activates when affiliate dashboards are connected</p>
+    <p class="ew-fine">Last updated <span id="ewDate">—</span> from Amazon Associates · <span id="ewMonth">—</span></p>
   </div>
 </aside>
 
 <script>
 (function() {
-  // Earnings widget — simulates an "in-progress" counter that ticks up slowly
-  // to give the page a sense of momentum. Replace ewAmount/ewBar updates with
-  // a real fetch from a future /api/earnings endpoint when ready.
+  // Earnings widget — reads current month's commission from UserStore.
+  // Admin updates the figure weekly from the Amazon Associates dashboard
+  // (via the admin.html page). The widget displays the most recent value.
   var widget = document.getElementById('earningsWidget');
   if (!widget) return;
 
@@ -931,27 +934,40 @@
   var body = document.getElementById('ewBody');
   var amountEl = document.getElementById('ewAmount');
   var bar = document.getElementById('ewBar');
+  var fineEl = widget.querySelector('.ew-fine');
 
-  // Start with a base amount; tick up periodically to feel alive.
-  // We persist in localStorage so the value doesn't reset on every page load.
-  var STORAGE_KEY = 'apertura.ew.amount';
-  var stored = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
-  if (stored < 247) stored = 247; // baseline
-  function render() {
-    amountEl.textContent = stored;
-    var pct = Math.min(100, (stored / 500) * 100);
+  var GOAL = 500;
+  function render(amount) {
+    amountEl.textContent = amount;
+    var pct = Math.min(100, (amount / GOAL) * 100);
     bar.style.width = pct + '%';
   }
-  render();
 
-  // Tick up every 12s by a small random amount (1-3) to feel like live activity.
-  // In production this would be a fetch from a real earnings endpoint.
-  setInterval(function() {
-    stored += 1 + Math.floor(Math.random() * 3);
-    if (stored > 500) stored = 247 + (stored % 253); // wrap realistically
-    localStorage.setItem(STORAGE_KEY, String(stored));
-    render();
-  }, 12000);
+  // Load real earnings from UserStore. If UserStore isn't ready yet, retry.
+  function loadEarnings(retries) {
+    retries = retries || 0;
+    if (window.UserStore && typeof window.UserStore.getEarnings === 'function') {
+      window.UserStore.getEarnings().then(function(rec) {
+        if (rec && rec.amount != null) {
+          render(rec.amount);
+          if (fineEl && rec.updatedAt) {
+            var d = new Date(rec.updatedAt);
+            var stamp = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            fineEl.textContent = 'Last updated ' + stamp + ' from Amazon Associates · ' + rec.month;
+          }
+        } else {
+          render(0);
+        }
+      });
+    } else if (retries < 20) {
+      // UserStore is loading async; wait a bit and try again
+      setTimeout(function() { loadEarnings(retries + 1); }, 100);
+    }
+  }
+  loadEarnings();
+
+  // Refresh every 5 minutes in case admin updated while the page is open
+  setInterval(loadEarnings, 5 * 60 * 1000);
 
   // Collapse/expand
   toggle.addEventListener('click', function() {
