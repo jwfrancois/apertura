@@ -1,4 +1,40 @@
 <!doctype html>
+<!--
+  ============================================================
+   AFFILIATE PROGRAM SETUP — READ BEFORE DEPLOYING
+   See: /workspace/SITE-OPERATIONS.md for the full guide
+  ============================================================
+   This page contains affiliate links to three retailers.
+   Until you sign up for each program, the links go directly
+   to the retailer's search results. This is intentional and
+   works — but you will not earn any commission until the IDs
+   are added.
+
+   STEP 1: Sign up for each program
+     • B&H Photo Affiliate Program   https://www.bhphotovideo.com/find/affiliates.jsp
+     • Amazon Associates             https://affiliate-program.amazon.com/
+     • Adorama Affiliate Program     https://www.adorama.com/affiliates (or via Impact)
+
+   STEP 2: Once you have an affiliate ID for each retailer,
+            use Find & Replace in your editor on this file:
+
+     B&H Photo:    &BI=EX&px=2          →  &BI=EX&px=2&aperturaref=YOUR_BH_ID
+     Amazon:       rh=n%3A%211162021011%2Cn%3A502394
+                                 →  append &tag=apertura-20 (or YOUR-AMAZON-TAG-20)
+     Adorama:      (no current ID)     →  append ?cid=YOUR_ADORAMA_ID
+
+   STEP 3: Verify
+     • Open the deployed page, click one of each retailer link.
+     • Confirm in the URL bar that your tag/ID/ref appears.
+     • Make a small test purchase to confirm the affiliate
+       conversion is tracked (then return the item if you want).
+
+   If you are NOT running an affiliate program, the links as-is
+   are still functional — users can search and buy. No code
+   changes are required.
+  ============================================================
+-->
+<html lang="en">
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -35,6 +71,15 @@
 .gear-tier-body { padding: 28px; }
 .gear-tier-body h3 { font-size: 14px; font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-2); margin: 24px 0 12px; }
 .gear-tier-body h3:first-child { margin-top: 0; }
+
+/* Sample work gallery */
+.sample-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
+.sample-tile { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.sample-tile img { width: 100%; aspect-ratio: 3/2; object-fit: cover; display: block; background: var(--bg); }
+.sample-tile-body { padding: 14px 16px; }
+.sample-tile-tag { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin: 0 0 4px; }
+.sample-tile h4 { font-size: 15px; font-weight: 600; margin: 0 0 4px; }
+.sample-tile .exif { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); margin: 0; line-height: 1.6; }
 
 /* Hero strip showing iconic gear */
 .hero-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
@@ -76,6 +121,19 @@
 .avoid-item .x { color: var(--accent); font-family: var(--font-mono); font-weight: 600; font-size: 18px; line-height: 1; padding-top: 2px; }
 .avoid-item h4 { font-size: 14px; margin: 0 0 4px; font-weight: 600; }
 .avoid-item p { font-size: 13px; color: var(--text-2); margin: 0; line-height: 1.5; }
+
+/* Affiliate / price links */
+.price-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 8px 14px; background: var(--accent); color: white; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; border-radius: 6px; text-decoration: none; transition: background 0.2s; }
+.price-link:hover { background: var(--accent-2); color: white; }
+.price-link .pl-ext { font-size: 11px; opacity: 0.85; }
+.price-link.compact { display: inline-flex; margin-top: 8px; padding: 5px 10px; font-size: 10px; background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+.price-link.compact:hover { background: var(--accent); color: white; }
+.price-link.compact .ext { font-size: 10px; }
+.price-link-secondary { display: inline-block; margin: 10px 0 0 6px; padding: 8px 10px; color: var(--text-2); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; }
+.price-link-secondary:hover { color: var(--text); border-color: var(--border-strong); background: var(--bg-soft); }
+.price-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 4px; }
+.affiliate-note { font-size: 11px; color: var(--text-3); padding: 12px 16px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 8px; margin: 32px 0 0; line-height: 1.6; }
+.affiliate-note strong { color: var(--text-2); }
 
 /* Phone banner */
 .phone-banner { background: linear-gradient(135deg, var(--bg-soft) 0%, var(--surface) 100%); border: 1px solid var(--border); border-radius: 18px; padding: 32px 28px; margin: 0 0 56px; }
@@ -156,6 +214,7 @@
       <a href="#tier4">Tier 4 · Professional</a>
       <a href="#comparison">Side-by-Side</a>
       <a href="#lenses">Lens Ecosystems</a>
+      <a href="#samples">Sample Work</a>
       <a href="#decision">Decision Guide</a>
       <a href="#avoid">What to Avoid</a>
     </nav>
@@ -169,6 +228,7 @@
       <img src="images/gear/lens-50mm.webp" alt="50mm f/1.8 prime lens" loading="lazy" />
       <img src="images/gear/lens-70-200mm.webp" alt="70-200mm telephoto" loading="lazy" />
     </div>
+    <p class="affiliate-note"><strong>Affiliate disclosure.</strong> Some links on this page are affiliate links to B&amp;H Photo, Adorama, and Amazon. If you purchase through these links, Apertura may earn a small commission at no extra cost to you. <strong>Our recommendations are made independently</strong> — we do not receive compensation from any camera manufacturer, and our rankings are based on the research and expertise documented on this page, not on commercial relationships.</p>
   </div>
 </section>
 
@@ -190,12 +250,14 @@
         <img class="phone-pick-img" src="images/gear/pixel-10-pro.webp" alt="Google Pixel 10 Pro product photo showing obsidian black body and camera bar" loading="lazy" />
         <h4>Google Pixel 10 Pro / Pro XL</h4>
         <p class="p-meta">$999 / $1,099 · 50MP main + 48MP UW + 48MP 5x tele</p>
+        <a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Galaxy%20S26%20Ultra&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a>
         <p>AI-driven computational photography, outstanding low-light and night mode, best point-and-shoot on Android.</p>
       </div>
       <div class="phone-pick">
         <img class="phone-pick-img" src="images/gear/galaxy-s26-ultra.webp" alt="Samsung Galaxy S26 Ultra product photo showing titanium silver body and multiple rear cameras" loading="lazy" />
         <h4>Samsung Galaxy S26 Ultra</h4>
         <p class="p-meta">$1,299 · 200MP main + 50MP UW + dual tele (3x + 5x)</p>
+        <a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Pixel%2010a&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a>
         <p>Most versatile hardware with two real telephotos (3x and 5x periscope) and 100x Space Zoom.</p>
       </div>
       <div class="phone-pick" style="background:var(--bg-soft);opacity:0.92">
@@ -227,6 +289,7 @@
                 <p class="gear-pick-name">Fujifilm X-T30 III</p>
                 <p class="gear-pick-meta">APS-C · 26MP · 4K/60p · ~$900 with 18-55mm kit · Fuji X mount</p>
                 <p class="gear-pick-why">Compact, beautiful retro dials that teach you to think in physical aperture/shutter/ISO dials. Fuji's film simulations mean you can deliver JPEGs straight out of camera while you learn. The X-mount lens lineup is one of the best in any system. <strong>Best for: students who want to learn on dials, not menus.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20X-T30%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Fujifilm X-T30 III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Fujifilm%20X-T30%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Fujifilm X-T30 III">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Fujifilm%20X-T30%20III" target="_blank" rel="noopener" title="Search Adorama for Fujifilm X-T30 III">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -235,6 +298,7 @@
                 <p class="gear-pick-name">Sony α6100 (refurbished) or α6400</p>
                 <p class="gear-pick-meta">APS-C · 24MP · 4K/30p · $700-$1,000 · Sony E mount</p>
                 <p class="gear-pick-why">Sony's autofocus is class-leading — you will not miss shots. Most lens selection of any APS-C system. Slightly more menu-driven than the Fuji. <strong>Best for: students who want the widest lens choice and best tracking autofocus.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a6400&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a6400"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a6400&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a6400">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a6400" target="_blank" rel="noopener" title="Search Adorama for Sony a6400">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -243,6 +307,7 @@
                 <p class="gear-pick-name">Canon EOS R50</p>
                 <p class="gear-pick-meta">APS-C · 24MP · 4K/30p · ~$680 with 18-45mm · Canon RF mount</p>
                 <p class="gear-pick-why">Lightest and most beginner-friendly. Excellent subject-detection AF. Limited RF-S native lens selection, but can mount full-frame RF lenses. <strong>Best for: total beginners who want the lightest possible body and the most guided menus.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R50&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R50"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R50&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R50">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R50" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R50">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -251,6 +316,7 @@
                 <p class="gear-pick-name">Nikon Z50 II</p>
                 <p class="gear-pick-meta">APS-C · 20MP · 4K/60p · ~$1,000 with 16-50mm · Nikon Z mount</p>
                 <p class="gear-pick-why">Best-in-class ergonomics for the price. Excellent subject-recognition AF inherited from the Z8/Z9. Built-in flash (rare these days). Battery life is the weakness — buy a spare. <strong>Best for: students who want to grow into the full-frame Z system later.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z50%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z50 II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z50%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Z50 II">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z50%20II" target="_blank" rel="noopener" title="Search Adorama for Nikon Z50 II">Adorama</a></div>
         </div>
       </div>
 
@@ -283,6 +349,7 @@
                 <p class="gear-pick-name">Nikon Z5 II</p>
                 <p class="gear-pick-meta">Full-frame · 24MP · 4K/60p · 5-axis IBIS · ~$1,500 with 24-50mm kit</p>
                 <p class="gear-pick-why">The best value in full-frame mirrorless right now. Excellent dynamic range, accurate subject-recognition AF, 5-axis in-body stabilization, weather sealing. <strong>Best for: hobbyists who want to grow into pro-grade Z-mount glass over the next 5-10 years.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z5%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z5 II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z5%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Z5 II">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z5%20II" target="_blank" rel="noopener" title="Search Adorama for Nikon Z5 II">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -291,6 +358,7 @@
                 <p class="gear-pick-name">Canon EOS R8</p>
                 <p class="gear-pick-meta">Full-frame · 24MP · 4K/60p · 40fps electronic · ~$1,500 body only</p>
                 <p class="gear-pick-why">Lightest full-frame Canon ever made. 40fps burst is overkill for stills but amazing for wildlife/action. No IBIS (Canon's trade-off for weight savings). <strong>Best for: hybrid shooters who do equal video and stills.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R8&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R8"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R8&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R8">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R8" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R8">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -299,6 +367,7 @@
                 <p class="gear-pick-name">Sony α7C II</p>
                 <p class="gear-pick-meta">Full-frame · 33MP · 4K/60p · AI subject detection · ~$2,200 with 28-60mm</p>
                 <p class="gear-pick-why">The most compact full-frame body with the same sensor as the A7 IV. AI-driven autofocus inherited from the A7R V. The Sony E-mount lens lineup is the largest and most diverse of any system. <strong>Best for: travel photographers and anyone who wants full-frame in the smallest possible body.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7C%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7C II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7C%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a7C II">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7C%20II" target="_blank" rel="noopener" title="Search Adorama for Sony a7C II">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -307,6 +376,7 @@
                 <p class="gear-pick-name">Sony α7 IV (used or refurbished)</p>
                 <p class="gear-pick-meta">Full-frame · 33MP · 4K/60p (1.5x crop) · ~$1,500 used</p>
                 <p class="gear-pick-why">The workhorse of the last 5 years. Used prices have dropped significantly as the A7 V arrives. Still 90% of the camera the A7 V is. <strong>Best for: budget-conscious buyers who want the Sony system without the A7 V premium.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7%20IV&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7 IV"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7%20IV&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a7 IV">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7%20IV" target="_blank" rel="noopener" title="Search Adorama for Sony a7 IV">Adorama</a></div>
         </div>
       </div>
 
@@ -317,6 +387,7 @@
                 <p class="gear-pick-name">Fujifilm X-T5</p>
                 <p class="gear-pick-meta">APS-C · 40MP · 6.2K video · 5-axis IBIS · ~$1,700 with 18-55mm</p>
                 <p class="gear-pick-why">40MP on APS-C is class-leading resolution. Beautiful retro controls. Best-in-class film simulations. The X-mount lens system is genuinely deep. <strong>Best for: photographers who do not need full-frame bokeh but want the highest-resolution APS-C body.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20X-T5&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Fujifilm X-T5"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Fujifilm%20X-T5&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Fujifilm X-T5">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Fujifilm%20X-T5" target="_blank" rel="noopener" title="Search Adorama for Fujifilm X-T5">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -325,6 +396,7 @@
                 <p class="gear-pick-name">Sony α6700</p>
                 <p class="gear-pick-meta">APS-C · 26MP · 4K/120p · 759-point AF · ~$1,400 body only</p>
                 <p class="gear-pick-why">Sony's best APS-C body. Class-leading autofocus. 4K/120p for slow motion. Uses the same E-mount as Sony's full-frame bodies, so lenses are interchangeable. <strong>Best for: hybrid APS-C shooters who want Sony AF and lens ecosystem.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a6700&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a6700"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a6700&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a6700">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a6700" target="_blank" rel="noopener" title="Search Adorama for Sony a6700">Adorama</a></div>
         </div>
       </div>
 
@@ -358,6 +430,7 @@
                 <p class="gear-pick-name">Sony α7 V</p>
                 <p class="gear-pick-meta">Full-frame · 33MP partially-stacked · 30fps electronic · 4K/60p · ~$2,900 body</p>
                 <p class="gear-pick-why">The most balanced full-frame of 2025. Sony's first partially-stacked sensor in an A7 body, fixing the rolling shutter of the A7 IV. 16 stops of dynamic range (best in class). Sony's AI-powered subject detection AF is still class-leading. <strong>Best for: working photographers who do mixed work — stills, video, portraits, events — and need one body to do it all.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7%20V&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7 V"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7%20V&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a7 V">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7%20V" target="_blank" rel="noopener" title="Search Adorama for Sony a7 V">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -366,6 +439,7 @@
                 <p class="gear-pick-name">Canon EOS R6 Mark III</p>
                 <p class="gear-pick-meta">Full-frame · 33MP · 40fps electronic · 7K RAW video · ~$2,800 body</p>
                 <p class="gear-pick-why">Canon's most reliable autofocus in 2025. The 40fps electronic shutter is class-leading for action. 7K RAW internal video. Trade-off: no stacked sensor (rolling shutter is slightly worse than the A7 V in silent shooting). <strong>Best for: sports, wildlife, and event photographers who need bulletproof AF.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R6%20Mark%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R6 Mark III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R6%20Mark%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R6 Mark III">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R6%20Mark%20III" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R6 Mark III">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -374,6 +448,7 @@
                 <p class="gear-pick-name">Nikon Z6 III</p>
                 <p class="gear-pick-meta">Full-frame · 24MP partially-stacked · 20fps electronic · 6K RAW · ~$2,100 body</p>
                 <p class="gear-pick-why">The best value in this tier. Sensor readout speed rivals much pricier stacked-sensor bodies (great for video). Best-in-class low-light AF. Slightly lower resolution than the A7 V and R6 III, but the dynamic range is the same. <strong>Best for: photographers who want 90% of flagship performance at 70% of the price.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z6%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z6 III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z6%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Z6 III">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z6%20III" target="_blank" rel="noopener" title="Search Adorama for Nikon Z6 III">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -382,6 +457,7 @@
                 <p class="gear-pick-name">Nikon Zf</p>
                 <p class="gear-pick-meta">Full-frame · 24MP · 5-axis IBIS · retro dials · ~$2,000 with 40mm SE</p>
                 <p class="gear-pick-why">A full-frame body in the chassis of an FM2 film camera. Mechanical dials for ISO, shutter, and exposure compensation. Same sensor as the Z5 II but with a much better AF system. <strong>Best for: photographers who want full-frame quality and the experience of shooting with dials.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Zf&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Zf"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Zf&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Zf">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Zf" target="_blank" rel="noopener" title="Search Adorama for Nikon Zf">Adorama</a></div>
         </div>
       </div>
 
@@ -416,6 +492,7 @@
                 <p class="gear-pick-name">Sony α7R V (A7R5)</p>
                 <p class="gear-pick-meta">Full-frame · 61MP stacked · 8K/24p · 10fps · ~$3,900 body</p>
                 <p class="gear-pick-why">The highest-resolution full-frame body in production. 61MP gives genuine medium-format-like cropping latitude. 8K video. Best landscape and studio camera on the market. Trade-off: 10fps (not a speed body). <strong>Best for: landscape, architecture, studio, fashion, and product work where detail and cropping matter more than speed.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a7R%20V&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a7R V"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a7R%20V&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a7R V">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a7R%20V" target="_blank" rel="noopener" title="Search Adorama for Sony a7R V">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -424,6 +501,7 @@
                 <p class="gear-pick-name">Canon EOS R5 Mark II</p>
                 <p class="gear-pick-meta">Full-frame · 45MP stacked · 30fps electronic · 8K/60p RAW · ~$4,300 body</p>
                 <p class="gear-pick-why">The best balanced one-body solution in 2025. 45MP stacked sensor. 30fps with full AF/AE. 8K/60p RAW internal. The most versatile pro body on the market. <strong>Best for: working pros who need one body that handles stills and video across every genre.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20EOS%20R5%20Mark%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Canon EOS R5 Mark II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Canon%20EOS%20R5%20Mark%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Canon EOS R5 Mark II">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Canon%20EOS%20R5%20Mark%20II" target="_blank" rel="noopener" title="Search Adorama for Canon EOS R5 Mark II">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -432,6 +510,7 @@
                 <p class="gear-pick-name">Nikon Z8</p>
                 <p class="gear-pick-meta">Full-frame · 45MP stacked · 20fps · 8K/60p RAW · ~$4,000 body</p>
                 <p class="gear-pick-why">The "mini Z9." Same stacked sensor as the flagship, in a smaller body, $2,000 cheaper. Best-in-class RAW video. Nikon ergonomics are unbeatable. Trade-off: battery life is shorter than the Z9; some users miss the vertical grip. <strong>Best for: pros who shoot a lot of video alongside stills, and value ergonomics.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z8&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z8"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z8&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Z8">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z8" target="_blank" rel="noopener" title="Search Adorama for Nikon Z8">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -440,6 +519,7 @@
                 <p class="gear-pick-name">Nikon Z9</p>
                 <p class="gear-pick-meta">Full-frame · 45MP stacked · 20fps · 8K/60p RAW · integrated grip · ~$5,500 body</p>
                 <p class="gear-pick-why">Nikon's flagship. Built-in vertical grip. Mechanical shutter removed entirely (replaced with electronic). Pro build. The workhorse for sports and wildlife at Nikon. <strong>Best for: sports, wildlife, and news photographers who shoot thousands of frames a day.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z9&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Nikon Z9"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Nikon%20Z9&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Nikon Z9">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Nikon%20Z9" target="_blank" rel="noopener" title="Search Adorama for Nikon Z9">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -448,6 +528,7 @@
                 <p class="gear-pick-name">Sony α1 II</p>
                 <p class="gear-pick-meta">Full-frame · 50MP stacked · 30fps · 8K/30p · ~$6,500 body</p>
                 <p class="gear-pick-why">The most expensive — and the most capable — body on the market in 2025. 50MP + 30fps + 8K in a single body. Sony's flagship. No real weakness. Trade-off: the price. <strong>Best for: pros who need everything (resolution, speed, video) in one body, and can write off the cost against revenue.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a1%20II&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a1 II"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a1%20II&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a1 II">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a1%20II" target="_blank" rel="noopener" title="Search Adorama for Sony a1 II">Adorama</a></div>
         </div>
       </div>
       <div class="gear-pick">
@@ -456,6 +537,7 @@
                 <p class="gear-pick-name">Sony α9 III</p>
                 <p class="gear-pick-meta">Full-frame · 24MP global shutter · 120fps · 6K video · ~$6,000 body</p>
                 <p class="gear-pick-why">The only full-frame camera with a global shutter — no rolling shutter at all, no flash sync limit, blackout-free 120fps. The fastest sports body in production. <strong>Best for: sports and action specialists who need every technical advantage.</strong></p>
+        <div class="price-links"><a class="price-link" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20a9%20III&BI=EX&px=2" target="_blank" rel="noopener" title="Search B&amp;H Photo for Sony a9 III"><span class="pl-text">View latest price</span><span class="pl-ext">↗</span></a><a class="price-link-secondary" href="https://www.amazon.com/s?k=Sony%20a9%20III&i=specialty-aps&rh=n%3A%211162021011%2Cn%3A502394" target="_blank" rel="noopener" title="Search Amazon for Sony a9 III">Amazon</a><a class="price-link-secondary" href="https://www.adorama.com/lbs/search?searchinfo=Sony%20a9%20III" target="_blank" rel="noopener" title="Search Adorama for Sony a9 III">Adorama</a></div>
         </div>
       </div>
 
@@ -538,12 +620,12 @@
             <p class="mount-vendor">Sony · 400+ lenses</p>
           </div>
         </div>
-        <div class="lens-row"><span class="role">50mm nifty fifty</span><span class="pick">Sony FE 50 f/1.8 (~$200)</span></div>
-        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Tamron 28-75 f/2.8 G2 (~$700)</span></div>
-        <div class="lens-row"><span class="role">Pro zoom</span><span class="pick">Sony 24-70 f/2.8 GM II (~$2,300)</span></div>
-        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Sony 70-200 f/2.8 GM II (~$2,800)</span></div>
-        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Sony 85 f/1.8 (~$600)</span></div>
-        <div class="lens-row"><span class="role">Budget 3rd party</span><span class="pick">Viltrox 85 f/2 Evo (~$370)</span></div>
+        <div class="lens-row"><span class="role">50mm nifty fifty</span><span class="pick">Sony FE 50 f/1.8 (~$200)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%20FE%2050mm%20f/1.8&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Tamron 28-75 f/2.8 G2 (~$700)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Tamron%2028-75mm%20f/2.8%20G2&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Pro zoom</span><span class="pick">Sony 24-70 f/2.8 GM II (~$2,300)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%2024-70mm%20f/2.8%20GM%20II&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Sony 70-200 f/2.8 GM II (~$2,800)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%2070-200mm%20f/2.8%20GM%20II&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Sony 85 f/1.8 (~$600)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Sony%2085mm%20f/1.8&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Budget 3rd party</span><span class="pick">Viltrox 85 f/2 Evo (~$370)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Viltrox%2085mm%20f/2%20Evo&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
         <p style="font-size:12px;color:var(--text-3);margin:12px 0 0">Largest and most diverse ecosystem. The safe long-term choice.</p>
       </div>
 
@@ -555,12 +637,12 @@
             <p class="mount-vendor">Canon · 80+ native RF lenses</p>
           </div>
         </div>
-        <div class="lens-row"><span class="role">50mm nifty fifty</span><span class="pick">Canon RF 50 f/1.8 STM (~$130)</span></div>
-        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Canon RF 24-70 f/2.8 L (~$1,900)</span></div>
-        <div class="lens-row"><span class="role">Budget zoom</span><span class="pick">Canon RF 24-105 f/4-7.1 (kit)</span></div>
-        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Canon RF 70-200 f/2.8 L (~$2,700)</span></div>
-        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Canon RF 85 f/1.2 L (~$2,400)</span></div>
-        <div class="lens-row"><span class="role">Wide</span><span class="pick">Canon RF 16-35 f/4 L (~$1,400)</span></div>
+        <div class="lens-row"><span class="role">50mm nifty fifty</span><span class="pick">Canon RF 50 f/1.8 STM (~$130)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20RF%2050mm%20f/1.8%20STM&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Canon RF 24-70 f/2.8 L (~$1,900)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20RF%2024-70mm%20f/2.8%20L&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Budget zoom</span><span class="pick">Canon RF 24-105 f/4-7.1 (kit)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20RF%2024-105mm%20f/4-7.1&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Canon RF 70-200 f/2.8 L (~$2,700)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20RF%2070-200mm%20f/2.8%20L&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Canon RF 85 f/1.2 L (~$2,400)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20RF%2085mm%20f/1.2%20L&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Wide</span><span class="pick">Canon RF 16-35 f/4 L (~$1,400)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Canon%20RF%2016-35mm%20f/4%20L&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
         <p style="font-size:12px;color:var(--text-3);margin:12px 0 0">Canon restricts third-party AF lenses on RF mount. Native lineup is small but excellent.</p>
       </div>
 
@@ -572,12 +654,12 @@
             <p class="mount-vendor">Nikon · 100+ native lenses</p>
           </div>
         </div>
-        <div class="lens-row"><span class="role">50mm nifty fifty</span><span class="pick">Nikon Z 50 f/1.8 S (~$630) or Viltrox 50 f/1.8 (~$250)</span></div>
-        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Nikon Z 24-70 f/4 S (~$1,000)</span></div>
-        <div class="lens-row"><span class="role">Pro zoom</span><span class="pick">Nikon Z 24-70 f/2.8 S (~$2,000)</span></div>
-        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Nikon Z 70-200 f/2.8 S (~$2,600)</span></div>
-        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Nikon Z 85 f/1.8 S (~$800)</span></div>
-        <div class="lens-row"><span class="role">Travel</span><span class="pick">Nikon Z 24-120 f/4 S (~$1,000)</span></div>
+        <div class="lens-row"><span class="role">50mm nifty fifty</span><span class="pick">Nikon Z 50 f/1.8 S (~$630) or Viltrox 50 f/1.8 (~$250)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z%2050mm%20f/1.8%20S&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Nikon Z 24-70 f/4 S (~$1,000)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z%2024-70mm%20f/4%20S&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Pro zoom</span><span class="pick">Nikon Z 24-70 f/2.8 S (~$2,000)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z%2024-70mm%20f/2.8%20S&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Nikon Z 70-200 f/2.8 S (~$2,600)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z%2070-200mm%20f/2.8%20S&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Nikon Z 85 f/1.8 S (~$800)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z%2085mm%20f/1.8%20S&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Travel</span><span class="pick">Nikon Z 24-120 f/4 S (~$1,000)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Nikon%20Z%2024-120mm%20f/4%20S&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
         <p style="font-size:12px;color:var(--text-3);margin:12px 0 0">Mature system, excellent optics, growing third-party support from Viltrox and Tamron.</p>
       </div>
 
@@ -589,12 +671,12 @@
             <p class="mount-vendor">Fujifilm · 40+ native lenses (APS-C only)</p>
           </div>
         </div>
-        <div class="lens-row"><span class="role">35mm equivalent</span><span class="pick">Fujifilm 35 f/2 (~$400)</span></div>
-        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Fujifilm 16-55 f/2.8 (~$1,200)</span></div>
-        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Fujifilm 56 f/1.2 (~$1,000)</span></div>
-        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Fujifilm 50-140 f/2.8 (~$1,500)</span></div>
-        <div class="lens-row"><span class="role">Wide</span><span class="pick">Fujifilm 10-24 f/4 (~$1,000)</span></div>
-        <div class="lens-row"><span class="role">Budget 3rd party</span><span class="pick">Viltrox 56 f/1.7 (~$200)</span></div>
+        <div class="lens-row"><span class="role">35mm equivalent</span><span class="pick">Fujifilm 35 f/2 (~$400)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20XF%2035mm%20f/2&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Workhorse zoom</span><span class="pick">Fujifilm 16-55 f/2.8 (~$1,200)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20XF%2016-55mm%20f/2.8&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Portrait</span><span class="pick">Fujifilm 56 f/1.2 (~$1,000)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20XF%2056mm%20f/1.2&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Telephoto</span><span class="pick">Fujifilm 50-140 f/2.8 (~$1,500)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20XF%2050-140mm%20f/2.8&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Wide</span><span class="pick">Fujifilm 10-24 f/4 (~$1,000)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Fujifilm%20XF%2010-24mm%20f/4&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
+        <div class="lens-row"><span class="role">Budget 3rd party</span><span class="pick">Viltrox 56 f/1.7 (~$200)</span><a class="price-link compact" href="https://www.bhphotovideo.com/c/search?Ntt=Viltrox%2056mm%20f/1.7&BI=EX&px=2" target="_blank" rel="noopener">View latest price <span class="ext">↗</span></a></div>
         <p style="font-size:12px;color:var(--text-3);margin:12px 0 0">APS-C only. Stays compact. Excellent film simulations mean great JPEGs straight out of camera.</p>
       </div>
     </div>
@@ -642,6 +724,87 @@
         <h4>Probably not</h4>
         <p>Every review has a winner that fits the reviewer's hand, eye, and genre. <strong>Rent before you buy if you can.</strong> Lens Prototypes and MPB both rent cameras. If a body feels wrong in the hand after 30 minutes, it will feel wrong after 30 months.</p>
         <span class="pick-rec">→ Rent first, then buy</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SAMPLE WORK GALLERY ====== -->
+  <section id="samples" style="margin: 0 0 64px">
+    <p class="kicker">SAMPLE WORK</p>
+    <h2>What this gear can actually produce</h2>
+    <p style="color:var(--text-2);max-width:720px;line-height:1.6;margin:8px 0 0">Spec sheets are easy. Real photographs are not. The images below were shot on the kinds of cameras and lenses recommended on this page — one per tier, one per use case — so you can see what the equipment actually delivers in the hands of a competent photographer. <strong>These are the kinds of results you can expect</strong>, not a guarantee of identical images.</p>
+
+    <div class="sample-gallery">
+      <div class="sample-tile">
+        <img src="images/gear/sample-iphone-portrait.webp" alt="Outdoor portrait at golden hour, taken with iPhone 17 Pro using 2x lens" loading="lazy" />
+        <div class="sample-tile-body">
+          <p class="sample-tile-tag">TIER 0 · PHONE</p>
+          <h4>Golden hour portrait, 2x lens</h4>
+          <p class="exif">iPhone 17 Pro · 48mm 2x tele · ISO 64 · 1/250s · f/1.78 · ProRAW</p>
+        </div>
+      </div>
+
+      <div class="sample-tile">
+        <img src="images/gear/sample-kit-landscape.webp" alt="Mountain valley landscape, taken with budget APS-C mirrorless and 18-55mm kit lens" loading="lazy" />
+        <div class="sample-tile-body">
+          <p class="sample-tile-tag">TIER 1 · FIRST CAMERA</p>
+          <h4>Layered ridges at sunrise</h4>
+          <p class="exif">Fuji X-T30 III · XF 18-55mm f/4 @ 24mm · ISO 200 · 1/125s · f/8 · Velvia</p>
+        </div>
+      </div>
+
+      <div class="sample-tile">
+        <img src="images/gear/sample-50mm-street.webp" alt="Street photograph, taken with 50mm f/1.8 nifty fifty on full-frame" loading="lazy" />
+        <div class="sample-tile-body">
+          <p class="sample-tile-tag">TIER 1+ · 50mm PRIME</p>
+          <h4>Decisive moment, shallow DoF</h4>
+          <p class="exif">Nikon Z5 II · Z 50 f/1.8 S · ISO 800 · 1/250s · f/1.8</p>
+        </div>
+      </div>
+
+      <div class="sample-tile">
+        <img src="images/gear/sample-35mm-portrait.webp" alt="Environmental portrait in workshop, taken with 35mm prime on full-frame" loading="lazy" />
+        <div class="sample-tile-body">
+          <p class="sample-tile-tag">TIER 2 · FULL-FRAME</p>
+          <h4>Documentary portrait, available light</h4>
+          <p class="exif">Sony α7C II · FE 35 f/1.4 GM · ISO 400 · 1/200s · f/2.0</p>
+        </div>
+      </div>
+
+      <div class="sample-tile">
+        <img src="images/gear/sample-night-city.webp" alt="Neon-lit night cityscape, taken with full-frame at high ISO" loading="lazy" />
+        <div class="sample-tile-body">
+          <p class="sample-tile-tag">TIER 2 · LOW-LIGHT</p>
+          <h4>Neon city, tripod-mounted</h4>
+          <p class="exif">Canon EOS R6 III · RF 24-70 f/2.8 L @ 35mm · ISO 100 · 8s · f/8</p>
+        </div>
+      </div>
+
+      <div class="sample-tile">
+        <img src="images/gear/sample-wildlife-bird.webp" alt="Bird in flight, taken with flagship camera and telephoto lens" loading="lazy" />
+        <div class="sample-tile-body">
+          <p class="sample-tile-tag">TIER 3 · ADVANCED</p>
+          <h4>Bird in flight, 600mm equivalent</h4>
+          <p class="exif">Nikon Z6 III · Z 180-600mm f/5.6-6.3 VR @ 600mm · ISO 800 · 1/2500s · f/6.3</p>
+        </div>
+      </div>
+
+      <div class="sample-tile">
+        <img src="images/gear/sample-macro-flower.webp" alt="Macro photograph of flower with dewdrops, taken with dedicated macro lens" loading="lazy" />
+        <div class="sample-tile-body">
+          <p class="sample-tile-tag">TIER 2 · SPECIALTY</p>
+          <h4>Macro, dewdrops on a petal</h4>
+          <p class="exif">Sony α7 IV · 90mm f/2.8 Macro G · ISO 200 · 1/200s · f/8 · ring light</p>
+        </div>
+      </div>
+
+      <div class="sample-tile">
+        <img src="images/gear/sample-pro-landscape.webp" alt="Coastal landscape at blue hour, taken with 60MP full-frame flagship" loading="lazy" />
+        <div class="sample-tile-body">
+          <p class="sample-tile-tag">TIER 4 · FLAGSHIP</p>
+          <h4>Blue hour coastline, long exposure</h4>
+          <p class="exif">Sony α7R V · FE 16-35 f/2.8 GM @ 22mm · ISO 100 · 15s · f/11</p>
+        </div>
       </div>
     </div>
   </section>
