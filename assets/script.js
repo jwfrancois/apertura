@@ -196,15 +196,42 @@ if (menuToggle && navLinks) {
   }
 
   // -------- Lesson card renderer --------
-  function renderLesson(lesson) {
+  function renderLesson(lesson, locked) {
     const done = isCompleted(lesson.id);
+    const lockClass = locked ? ' is-locked' : '';
+    const lockBadge = locked ? '<span class="lesson-lock-badge" aria-label="Locked — register to unlock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Locked</span>' : '';
+    const bodyContent = locked ? `
+      <div class="lesson-locked-overlay">
+        <div class="lesson-locked-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40" height="40"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h4>This lesson is part of the full curriculum</h4>
+        <p>Register a free account to unlock all 30 lessons, track your progress, and earn your certificate of completion.</p>
+        <div class="lesson-locked-cta">
+          <a class="btn btn-primary" href="register.html">Create free account</a>
+          <a class="btn btn-secondary" href="login.html">Already a member? Sign in</a>
+        </div>
+      </div>
+    ` : `
+      <div class="lesson-video">
+        ${makeThumbnail(lesson.videoId, lesson.photographer)}
+      </div>
+      <div class="lesson-content">
+        <h4>Learning Objectives</h4>
+        <ul>${lesson.objectives.map(o => `<li>${o}</li>`).join('')}</ul>
+        <h4>Key Concepts</h4>
+        <ul>${lesson.concepts.map(c => `<li class="concepts">${c}</li>`).join('')}</ul>
+        <h4>Assignment</h4>
+        <p>${lesson.assignment}</p>
+      </div>
+    `;
     return `
-      <article class="lesson-card ${done ? 'is-complete' : ''}" data-lesson-id="${lesson.id}" data-level="${lesson.level}">
+      <article class="lesson-card ${done ? 'is-complete' : ''}${lockClass}" data-lesson-id="${lesson.id}" data-level="${lesson.level}">
         <div class="lesson-header" role="button" tabindex="0" aria-expanded="false">
           <div class="lesson-num">${lesson.num}</div>
           <div class="lesson-info">
             <div class="lesson-info-row1">
-              <h3 class="lesson-title">${lesson.title}</h3>
+              <h3 class="lesson-title">${lesson.title}${lockBadge}</h3>
             </div>
             <div class="lesson-meta">
               <span class="lesson-meta-item">
@@ -228,17 +255,7 @@ if (menuToggle && navLinks) {
           </div>
         </div>
         <div class="lesson-body">
-          <div class="lesson-video">
-            ${makeThumbnail(lesson.videoId, lesson.photographer)}
-          </div>
-          <div class="lesson-content">
-            <h4>Learning Objectives</h4>
-            <ul>${lesson.objectives.map(o => `<li>${o}</li>`).join('')}</ul>
-            <h4>Key Concepts</h4>
-            <ul>${lesson.concepts.map(c => `<li class="concepts">${c}</li>`).join('')}</ul>
-            <h4>Assignment</h4>
-            <p>${lesson.assignment}</p>
-          </div>
+          ${bodyContent}
         </div>
       </article>
     `;
@@ -274,7 +291,12 @@ if (menuToggle && navLinks) {
             </div>
             <div>
               <div class="lessons-list">
-                ${lessons.map(renderLesson).join('')}
+                ${lessons.map((l, idx) => {
+                  // Guest (not signed in): unlock first 2 lessons in Level 1; lock the rest
+                  let locked = false;
+                  if (!_user && (l.level !== 1 || idx >= 2)) locked = true;
+                  return renderLesson(l, locked);
+                }).join('')}
               </div>
             </div>
           </div>
@@ -324,7 +346,24 @@ if (menuToggle && navLinks) {
     // Levels
     const levelsHtml = LEVELS.map(l => renderLevelBlock(l.level, l)).join('');
 
-    host.innerHTML = overallHtml + tabsHtml + levelsHtml;
+    // Guest banner — only shown when not signed in
+    const guestBanner = _user ? '' : `
+      <div class="guest-banner" role="region" aria-label="Preview mode">
+        <div class="guest-banner-inner">
+          <div class="guest-banner-text">
+            <p class="kicker">PREVIEW MODE</p>
+            <h3>You're previewing the curriculum as a guest</h3>
+            <p>You can read the first 2 lessons of Level 1. <strong>Register a free account to unlock all 30 lessons</strong>, track your progress, earn your certificate, and access the gear guide and 32 project ideas.</p>
+          </div>
+          <div class="guest-banner-actions">
+            <a class="btn btn-primary" href="register.html">Create free account</a>
+            <a class="btn btn-secondary" href="login.html">Sign in</a>
+          </div>
+        </div>
+      </div>
+    `;
+
+    host.innerHTML = guestBanner + overallHtml + tabsHtml + levelsHtml;
 
     attachEvents();
     updateProgress();
@@ -360,6 +399,16 @@ if (menuToggle && navLinks) {
       header.addEventListener('click', (e) => {
         if (e.target.closest('.lesson-complete-btn')) return;
         const card = header.closest('.lesson-card');
+        if (card.classList.contains('is-locked')) {
+          // Send guests straight to register
+          if (!_user) {
+            window.location.href = 'register.html?from=lesson&l=' + encodeURIComponent(card.getAttribute('data-lesson-id'));
+          } else {
+            card.classList.add('is-open');
+            header.setAttribute('aria-expanded', 'true');
+          }
+          return;
+        }
         card.classList.toggle('is-open');
         header.setAttribute('aria-expanded', card.classList.contains('is-open') ? 'true' : 'false');
       });
@@ -375,11 +424,16 @@ if (menuToggle && navLinks) {
     document.querySelectorAll('.lesson-complete-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         e.stopPropagation();
+        const card = btn.closest('.lesson-card');
+        if (card && card.classList.contains('is-locked') && !_user) {
+          window.location.href = 'register.html';
+          return;
+        }
         const id = btn.getAttribute('data-complete');
         const nowDone = await toggleCompleted(id);
         btn.classList.toggle('checked', nowDone);
-        const card = btn.closest('.lesson-card');
-        card.classList.toggle('is-complete', nowDone);
+        const completeCard = btn.closest('.lesson-card');
+        if (completeCard) completeCard.classList.toggle('is-complete', nowDone);
         updateProgress();
       });
     });

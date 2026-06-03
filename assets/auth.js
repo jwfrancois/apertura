@@ -13,10 +13,11 @@
   if (typeof window === 'undefined') return;
 
   const DB_NAME = 'apertura';
-  const DB_VERSION = 2; // bumped — kills old v1 stores that might conflict
+  const DB_VERSION = 3; // bumped — adds earnings store; v1/v2 users get auto-migration
   const STORE_USERS = 'users';
   const STORE_PROGRESS = 'progress';
   const STORE_ADMIN = 'admin';
+  const STORE_EARNINGS = 'earnings';
   const SESSION_KEY = 'apertura-current-user';
 
   // -------- IndexedDB helpers --------
@@ -34,6 +35,9 @@
         }
         if (!db.objectStoreNames.contains(STORE_ADMIN)) {
           db.createObjectStore(STORE_ADMIN, { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains(STORE_EARNINGS)) {
+          db.createObjectStore(STORE_EARNINGS, { keyPath: 'key' });
         }
       };
       req.onsuccess = (e) => resolve(e.target.result);
@@ -105,19 +109,50 @@
   const _currentUser = { value: null };
 
   async function seedDefaultAdmin() {
-    const existing = await read(STORE_ADMIN, 'get', 'admin');
-    if (existing) return;
-    const { salt, hash } = await hashPassword('admin123');
-    await write(STORE_ADMIN, 'put', {
-      id: 'admin', email: 'admin@apertura.photo', name: 'Demo Admin',
-      role: 'admin', salt, hash, createdAt: Date.now(),
-    });
-    const existingAdminUser = await read(STORE_USERS, 'get', 'u_admin');
-    if (!existingAdminUser) {
-      await write(STORE_USERS, 'put', {
-        id: 'u_admin', email: 'admin@apertura.photo', name: 'Demo Admin',
-        role: 'admin', createdAt: Date.now(),
+    // Each admin lives in STORE_ADMIN keyed by its email-derived id, so multiple
+    // admins can co-exist. STORE_USERS gets a parallel record so the user list
+    // shows them as people, not just keys.
+    //
+    // Note: STORE_ADMIN is *not* the single source of truth anymore — it's now
+    // an index of admin credentials keyed by their email-derived id. The login
+    // function looks up by email across the index.
+
+    // Default demo admin — kept for board review
+    const demoEmail = 'admin@apertura.photo';
+    const demoId = 'admin';
+    const existingDemo = await read(STORE_ADMIN, 'get', demoId);
+    if (!existingDemo) {
+      const { salt, hash } = await hashPassword('admin123');
+      await write(STORE_ADMIN, 'put', {
+        id: demoId, email: demoEmail, name: 'Demo Admin',
+        role: 'admin', salt, hash, createdAt: Date.now(),
       });
+      const existingDemoUser = await read(STORE_USERS, 'get', 'u_' + demoId);
+      if (!existingDemoUser) {
+        await write(STORE_USERS, 'put', {
+          id: 'u_' + demoId, email: demoEmail, name: 'Demo Admin',
+          role: 'admin', createdAt: Date.now(),
+        });
+      }
+    }
+
+    // Site owner / real admin — jwf8666@gmail.com
+    const ownerEmail = 'jwf8666@gmail.com';
+    const ownerId = 'admin_jwf8666';
+    const existingOwner = await read(STORE_ADMIN, 'get', ownerId);
+    if (!existingOwner) {
+      const { salt, hash } = await hashPassword('bonjour66');
+      await write(STORE_ADMIN, 'put', {
+        id: ownerId, email: ownerEmail, name: 'Site Owner',
+        role: 'admin', salt, hash, createdAt: Date.now(),
+      });
+      const existingOwnerUser = await read(STORE_USERS, 'get', 'u_' + ownerId);
+      if (!existingOwnerUser) {
+        await write(STORE_USERS, 'put', {
+          id: 'u_' + ownerId, email: ownerEmail, name: 'Site Owner',
+          role: 'admin', createdAt: Date.now(),
+        });
+      }
     }
   }
 
@@ -146,11 +181,13 @@
   async function login({ email, password }) {
     const cleanEmail = (email || '').trim().toLowerCase();
     if (!cleanEmail || !password) return { ok: false, error: 'Email and password are required.' };
-    const admin = await read(STORE_ADMIN, 'get', 'admin');
-    if (admin && admin.email === cleanEmail) {
+    // Scan all admin records to find a match — supports multiple admins
+    const allAdmins = await read(STORE_ADMIN, 'getAll');
+    const admin = allAdmins.find((a) => a.email === cleanEmail);
+    if (admin) {
       const match = await verifyPassword(password, admin.salt, admin.hash);
       if (!match) return { ok: false, error: 'Incorrect password.' };
-      const sessionUser = { id: 'u_admin', email: admin.email, name: admin.name, role: 'admin', createdAt: admin.createdAt };
+      const sessionUser = { id: 'u_' + admin.id, email: admin.email, name: admin.name, role: 'admin', createdAt: admin.createdAt };
       _currentUser.value = sessionUser;
       localStorage.setItem(SESSION_KEY, sessionUser.id);
       return { ok: true, user: sessionUser };
@@ -256,6 +293,43 @@
     }
   }
 
+  // -------- Admin management --------
+  // Multiple admins can co-exist. The first admin is the demo admin seeded on
+  // first load; site owners can add additional admins via /admin.html.
+  async function createAdmin({ email, name, password }) {
+    const cleanEmail = (email || '').trim().toLowerCase();
+    if (!cleanEmail || !password || !name) return { ok: false, error: 'Name, email, and password are all required.' };
+    if (password.length < 6) return { ok: false, error: 'Password must be at least 6 characters.' };
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) return { ok: false, error: 'Please enter a valid email address.' };
+    // Check for collision with existing admin or user
+    const allAdmins = await read(STORE_ADMIN, 'getAll');
+    if (allAdmins.find((a) => a.email === cleanEmail)) return { ok: false, error: 'An admin with that email already exists.' };
+    const allUsers = await read(STORE_USERS, 'getAll');
+    if (allUsers.find((u) => u.email === cleanEmail)) return { ok: false, error: 'A user with that email already exists.' };
+    // Derive a stable id from the email local part
+    const local = cleanEmail.split('@')[0].replace(/[^a-z0-9]/gi, '_');
+    const id = 'admin_' + local;
+    const { salt, hash } = await hashPassword(password);
+    const now = Date.now();
+    await write(STORE_ADMIN, 'put', { id, email: cleanEmail, name, role: 'admin', salt, hash, createdAt: now });
+    await write(STORE_USERS, 'put', { id: 'u_' + id, email: cleanEmail, name, role: 'admin', createdAt: now });
+    return { ok: true, id, email: cleanEmail };
+  }
+  async function listAdmins() {
+    const all = await read(STORE_ADMIN, 'getAll');
+    return all.map((a) => ({ id: a.id, email: a.email, name: a.name, createdAt: a.createdAt }));
+  }
+  async function deleteAdmin(id) {
+    // Don't allow deleting the last admin
+    const all = await read(STORE_ADMIN, 'getAll');
+    if (all.length <= 1) return { ok: false, error: 'Cannot delete the only remaining admin.' };
+    const target = all.find((a) => a.id === id);
+    if (!target) return { ok: false, error: 'Admin not found.' };
+    await write(STORE_ADMIN, 'delete', id);
+    await write(STORE_USERS, 'delete', 'u_' + id);
+    return { ok: true };
+  }
+
   async function getStats() {
     const users = await read(STORE_USERS, 'getAll');
     const students = users.filter((u) => u.role !== 'admin');
@@ -278,6 +352,38 @@
     };
   }
 
+  // -------- Earnings / Amazon Associates tracking --------
+  // Amazon does not offer a public API for commission totals, so this is a
+  // manually-maintained store. The site admin updates the figure weekly from
+  // the Amazon Associates dashboard; the public widget on the gear page reads
+  // the current month value and displays it.
+  //
+  // Storage shape (key/value):
+  //   key: "current"      → { month: "2026-06", amount: 247, updatedAt: 1717... }
+  //   key: "history-YYYY" → { year: 2026, months: { "01": 50, "02": 80, ... } }
+  async function getEarnings() {
+    const cur = await read(STORE_EARNINGS, 'get', 'current');
+    if (cur) return cur;
+    return { month: new Date().toISOString().slice(0, 7), amount: 0, updatedAt: null };
+  }
+  async function setEarnings({ month, amount }) {
+    const record = { key: 'current', month, amount, updatedAt: Date.now() };
+    await write(STORE_EARNINGS, 'put', record);
+    // Also append to yearly history
+    const year = month.slice(0, 4);
+    const monthKey = month.slice(5, 7);
+    const histKey = 'history-' + year;
+    const hist = (await read(STORE_EARNINGS, 'get', histKey)) || { key: histKey, year: parseInt(year, 10), months: {} };
+    hist.months[monthKey] = amount;
+    hist.updatedAt = Date.now();
+    await write(STORE_EARNINGS, 'put', hist);
+    return record;
+  }
+  async function getEarningsHistory() {
+    const all = await read(STORE_EARNINGS, 'getAll');
+    return all.filter((e) => e.key && e.key.startsWith('history-')).sort((a, b) => b.year - a.year);
+  }
+
   // The frozen public object. If a future edit accidentally breaks any function,
   // the whole `const UserStore` line will throw at script-parse time, and
   // `window.UserStore` will be `undefined` — never a half-loaded object.
@@ -297,6 +403,12 @@
     getUserProgress,
     deleteUser,
     getStats,
+    createAdmin,
+    listAdmins,
+    deleteAdmin,
+    getEarnings,
+    setEarnings,
+    getEarningsHistory,
   });
 
   window.UserStore = UserStore;
@@ -319,4 +431,12 @@
 
   // Seed the demo admin on first load
   UserStore.seedDefaultAdmin().catch((e) => console.warn('[UserStore] admin seed failed', e));
+
+  // Seed initial earnings (no month set yet — admin fills it via /admin.html)
+  UserStore.getEarnings().then((rec) => {
+    if (!rec.updatedAt) {
+      // Don't auto-seed an amount — the admin enters the first real figure
+      // from the Amazon Associates dashboard. This avoids showing fake numbers.
+    }
+  }).catch(() => {});
 })();

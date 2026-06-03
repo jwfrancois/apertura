@@ -159,6 +159,41 @@ h1, h2, h3, h4, h5, h6 { font-weight: 500; letter-spacing: -0.01em; line-height:
 .admin-sub { color: var(--text-2); font-size: 15px; }
 .admin-section { margin-bottom: 48px; }
 .admin-section h2 { font-size: 24px; margin: 16px 0 20px; }
+
+/* Earnings admin form */
+.earnings-form { display: flex; flex-direction: column; gap: 14px; max-width: 520px; margin: 20px 0 28px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.ef-row { display: flex; flex-direction: column; gap: 6px; }
+.ef-row label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--text-2); text-transform: uppercase; }
+.ef-row input { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 6px; font-size: 14px; font-family: var(--font-sans); }
+.ef-row input:focus { outline: none; border-color: var(--accent); }
+.ef-row button { margin-top: 4px; }
+.ef-status { font-family: var(--font-mono); font-size: 11px; color: var(--text-2); margin-top: 4px; min-height: 16px; }
+.ef-status.ef-success { color: #4ade80; }
+.ef-status.ef-error { color: var(--accent); }
+.ef-current { padding: 16px 20px; background: var(--bg-soft); border-radius: 10px; border: 1px solid var(--border); margin-bottom: 16px; }
+.ef-current h3 { font-size: 12px; font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); margin: 0 0 8px; }
+.ef-current p { margin: 0; font-size: 15px; color: var(--text); }
+.ef-current strong { color: var(--accent); }
+.ef-history { margin-top: 12px; }
+.ef-history summary { cursor: pointer; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); padding: 8px 0; }
+.ef-history summary:hover { color: var(--text); }
+.ef-history > div { margin-top: 12px; padding: 16px; background: var(--bg-soft); border-radius: 8px; border: 1px solid var(--border); }
+.ef-year-block { margin-bottom: 14px; }
+.ef-year-block:last-child { margin-bottom: 0; }
+.ef-year-block h4 { font-size: 13px; font-family: var(--font-mono); letter-spacing: 0.04em; color: var(--text); margin: 0 0 6px; }
+.ef-year-block ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 4px 16px; }
+.ef-year-block li { font-size: 12px; color: var(--text-2); }
+.ef-empty { color: var(--text-3); font-style: italic; margin: 0; }
+
+/* Admin list (current administrators) */
+.admin-list { list-style: none; padding: 0; margin: 0; }
+.admin-list-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.admin-list-item:last-child { border-bottom: none; }
+.admin-list-item .ali-info { display: flex; flex-direction: column; gap: 2px; }
+.admin-list-item strong { font-size: 14px; color: var(--text); }
+.admin-list-item .ali-email { font-family: var(--font-mono); font-size: 11px; color: var(--text-2); }
+.admin-list-item .ali-date { font-family: var(--font-mono); font-size: 10px; color: var(--text-3); }
+.ali-self { display: inline-block; margin-left: 6px; padding: 2px 6px; background: var(--accent); color: white; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 3px; font-weight: 600; }
 .admin-popular { list-style: none; padding: 0; }
 .admin-popular li { padding: 10px 0; border-bottom: 1px solid var(--border); }
 
@@ -488,6 +523,29 @@ h1, h2, h3, h4, h5, h6 { font-weight: 500; letter-spacing: -0.01em; line-height:
 .lesson-body { display: grid; grid-template-columns: 1.2fr 1fr; gap: 0; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.5s var(--ease), opacity 0.4s var(--ease); }
 .lesson-card.is-open .lesson-body { max-height: 2000px; opacity: 1; }
 @media (max-width: 900px) { .lesson-body { grid-template-columns: 1fr; } }
+
+/* Guest preview banner (only on curriculum page) */
+.guest-banner { background: linear-gradient(135deg, var(--bg-soft) 0%, var(--surface) 100%); border: 1px solid var(--border-strong); border-radius: 16px; padding: 28px 32px; margin: 0 0 32px; position: relative; overflow: hidden; }
+.guest-banner::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent); }
+.guest-banner-inner { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+.guest-banner-text { flex: 1; min-width: 280px; }
+.guest-banner-text h3 { font-size: 20px; font-weight: 700; margin: 4px 0 8px; letter-spacing: -0.01em; }
+.guest-banner-text p { margin: 0; color: var(--text-2); line-height: 1.55; font-size: 14px; }
+.guest-banner-text strong { color: var(--text); }
+.guest-banner-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+@media (max-width: 600px) { .guest-banner { padding: 20px 22px; } .guest-banner-inner { gap: 18px; } }
+
+/* Locked lesson card (gated) */
+.lesson-card.is-locked { background: var(--bg-soft); border-style: dashed; border-color: var(--border); }
+.lesson-card.is-locked .lesson-num { background: var(--bg-soft); color: var(--text-3); border-color: var(--border); }
+.lesson-card.is-locked .lesson-title { color: var(--text-2); }
+.lesson-card.is-locked .lesson-complete-btn { opacity: 0.3; pointer-events: none; }
+.lesson-lock-badge { display: inline-flex; align-items: center; gap: 4px; margin-left: 10px; padding: 3px 8px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); background: rgba(255, 59, 48, 0.08); border: 1px solid rgba(255, 59, 48, 0.3); border-radius: 4px; font-weight: 600; vertical-align: middle; }
+.lesson-locked-overlay { grid-column: 1 / -1; padding: 48px 32px; text-align: center; background: var(--bg); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.lesson-locked-icon { color: var(--accent); opacity: 0.8; margin-bottom: 4px; }
+.lesson-locked-overlay h4 { font-size: 17px; font-weight: 600; margin: 0; color: var(--text); }
+.lesson-locked-overlay p { margin: 0; max-width: 480px; color: var(--text-2); font-size: 14px; line-height: 1.55; }
+.lesson-locked-cta { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 12px; }
 
 /* Video player */
 .lesson-video { background: black; border-top: 1px solid var(--border); aspect-ratio: 16/9; position: relative; }
